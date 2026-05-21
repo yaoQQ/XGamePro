@@ -1024,6 +1024,951 @@ export const codeMetaData: CodeMetaData = {
     // CommonScript
     // ==========================================================
     cls('CommonScript.GamePlayConfig', 'GamePlayConfig', 'CommonScript', 'class', '游戏玩法配置', 'CommonScript/GamePlayConfig.cs'),
+
+    // ==========================================================
+    // XGame.Common (Core Framework - XGameDll)
+    // ==========================================================
+    cls('XGame.Common.XGameApp', 'XGameApp', 'XGame.Common', 'class', 'XGame应用入口', 'XGame/Common/XGameApp.cs', {
+      methods: [
+        method('GetApp', 'XGameApp', [], 'public', '获取应用实例', true),
+        method('Init', 'void', [], 'public', '初始化'),
+        method('Update', 'void', [], 'public', '更新'),
+        method('LateUpdate', 'void', [], 'public', '延迟更新'),
+        method('FixedUpdate', 'void', [], 'public', '固定帧更新'),
+        method('Release', 'void', [], 'public', '释放'),
+        method('GetCom', 'ICom', ['int'], 'public', '获取组件'),
+        method('AddCom', 'void', ['ICom'], 'public', '添加组件'),
+        method('RemoveCom', 'void', ['int'], 'public', '移除组件'),
+        method('OnXGameAppSink_OnInit', 'void', [], 'public', '应用初始化回调'),
+        method('OnXGameAppSink_OnWillQuit', 'void', [], 'public', '应用即将退出回调'),
+      ],
+    }),
+    cls('XGame.Common.XGameAppEnv', 'XGameAppEnv', 'XGame.Common', 'class', 'XGame应用环境配置', 'XGame/Common/XGameAppEnv.cs', {
+      properties: [
+        prop('IsDebug', 'bool', '是否调试模式'),
+        prop('IsEditor', 'bool', '是否编辑器'),
+        prop('Platform', 'int', '平台'),
+        prop('AppVersion', 'string', '应用版本'),
+      ],
+    }),
+    cls('XGame.Common.XGameAppEnvMono', 'XGameAppEnvMono', 'XGame.Common', 'class', 'XGame应用环境Mono', 'XGame/Common/XGameAppEnvMono.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.Common.XGameComs', 'XGameComs', 'XGame.Common', 'class', 'XGame组件容器', 'XGame/Common/XGameComs.cs', {
+      methods: [
+        method('GetCom', 'ICom', ['int'], 'public', '获取组件'),
+        method('AddCom', 'void', ['ICom'], 'public', '添加组件'),
+        method('RemoveCom', 'void', ['int'], 'public', '移除组件'),
+        method('Clear', 'void', [], 'public', '清空组件'),
+      ],
+    }),
+    cls('XGame.Common.ICom', 'ICom', 'XGame.Common', 'interface', '组件接口', 'XGame/Common/ICom.cs', {
+      methods: [
+        method('Create', 'bool', ['object', 'object'], 'public', '创建'),
+        method('Start', 'bool', [], 'public', '启动'),
+        method('Stop', 'void', [], 'public', '停止'),
+        method('Release', 'void', [], 'public', '释放'),
+        method('Update', 'void', [], 'public', '更新'),
+        method('SetID', 'void', ['int'], 'public', '设置ID'),
+        method('GetID', 'int', [], 'public', '获取ID'),
+      ],
+    }),
+    cls('XGame.Common.IComEx', 'IComEx', 'XGame.Common', 'interface', '组件扩展接口', 'XGame/Common/IComEx.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+      methods: [
+        method('LateUpdate', 'void', [], 'public', '延迟更新'),
+        method('FixedUpdate', 'void', [], 'public', '固定帧更新'),
+      ],
+    }),
+    cls('XGame.Common.IXGameAppSink', 'IXGameAppSink', 'XGame.Common', 'interface', 'XGame应用回调', 'XGame/Common/IXGameAppSink.cs', {
+      methods: [
+        method('OnXGameAppInited', 'void', [], 'public', '应用初始化完成'),
+        method('OnXGameAppWillQuit', 'void', [], 'public', '应用即将退出'),
+      ],
+    }),
+    cls('XGame.Common.Def', 'Def', 'XGame.Common', 'static_class', '全局常量定义', 'XGame/Common/Def.cs'),
+    cls('XGame.Common.GamePath', 'GamePath', 'XGame.Common', 'static_class', '游戏路径工具', 'XGame/Common/GamePath.cs', {
+      methods: [
+        method('GetPersistentDataPath', 'string', [], 'public', '获取持久化数据路径', true),
+        method('GetStreamingAssetsPath', 'string', [], 'public', '获取StreamingAssets路径', true),
+        method('GetTemporaryCachePath', 'string', [], 'public', '获取临时缓存路径', true),
+      ],
+    }),
+
+    // ==========================================================
+    // XGame.Common.Utils (XGameDll)
+    // ==========================================================
+    cls('XGame.Common.Utils.Singleton', 'Singleton', 'XGame.Common.Utils', 'abstract_class', '泛型单例基类', 'XGame/Common/Utils/Singleton.cs', {
+      properties: [prop('Instance', 'T', '单例实例(get)')],
+    }),
+    cls('XGame.Common.Utils.ObjectPool', 'ObjectPool', 'XGame.Common.Utils', 'class', '对象池', 'XGame/Common/Utils/ObjectPool.cs', {
+      methods: [
+        method('Get', 'T', [], 'public', '获取对象'),
+        method('Release', 'void', ['T'], 'public', '释放对象'),
+        method('Clear', 'void', [], 'public', '清空'),
+      ],
+    }),
+    cls('XGame.Common.Utils.ListPool', 'ListPool', 'XGame.Common.Utils', 'class', '列表对象池', 'XGame/Common/Utils/ListPool.cs', {
+      methods: [
+        method('Get', 'List<T>', [], 'public', '获取列表'),
+        method('Release', 'void', ['List<T>'], 'public', '释放列表'),
+      ],
+    }),
+    cls('XGame.Common.Utils.StringUtil', 'StringUtil', 'XGame.Common.Utils', 'static_class', '字符串工具', 'XGame/Common/Utils/StringUtil.cs'),
+    cls('XGame.Common.Utils.MathUtil', 'MathUtil', 'XGame.Common.Utils', 'static_class', '数学工具', 'XGame/Common/Utils/MathUtil.cs'),
+    cls('XGame.Common.Utils.DateTimeUtil', 'DateTimeUtil', 'XGame.Common.Utils', 'static_class', '日期时间工具', 'XGame/Common/Utils/DateTimeUtil.cs'),
+    cls('XGame.Common.Utils.EncryptUtil', 'EncryptUtil', 'XGame.Common.Utils', 'static_class', '加密工具', 'XGame/Common/Utils/EncryptUtil.cs'),
+    cls('XGame.Common.Utils.HashHelper', 'HashHelper', 'XGame.Common.Utils', 'static_class', '哈希工具', 'XGame/Common/Utils/HashHelper.cs'),
+    cls('XGame.Common.Utils.DebugEx', 'DebugEx', 'XGame.Common.Utils', 'static_class', '调试扩展工具', 'XGame/Common/Utils/DebugEx.cs'),
+    cls('XGame.Common.Utils.File', 'File', 'XGame.Common.Utils', 'static_class', '文件操作工具', 'XGame/Common/Utils/File.cs'),
+    cls('XGame.Common.Utils.Path', 'Path', 'XGame.Common.Utils', 'static_class', '路径工具', 'XGame/Common/Utils/Path.cs'),
+    cls('XGame.Common.Utils.Platform', 'Platform', 'XGame.Common.Utils', 'static_class', '平台工具', 'XGame/Common/Utils/Platform.cs'),
+    cls('XGame.Common.Utils.MemUtil', 'MemUtil', 'XGame.Common.Utils', 'static_class', '内存工具', 'XGame/Common/Utils/MemUtil.cs'),
+    cls('XGame.Common.Utils.BinParser', 'BinParser', 'XGame.Common.Utils', 'class', '二进制解析器', 'XGame/Common/Utils/BinParser.cs'),
+    cls('XGame.Common.Utils.BitFlag', 'BitFlag', 'XGame.Common.Utils', 'class', '位标记工具', 'XGame/Common/Utils/BitFlag.cs'),
+    cls('XGame.Common.Utils.CRLE', 'CRLE', 'XGame.Common.Utils', 'class', 'RLE压缩', 'XGame/Common/Utils/CRLE.cs'),
+    cls('XGame.Common.Utils.XXTea', 'XXTea', 'XGame.Common.Utils', 'class', 'XXTea加密', 'XGame/Common/Utils/XXTea.cs'),
+    cls('XGame.Common.Utils.XmlParser', 'XmlParser', 'XGame.Common.Utils', 'class', 'XML解析器', 'XGame/Common/Utils/XmlParser.cs'),
+    cls('XGame.Common.Utils.DataConfig', 'DataConfig', 'XGame.Common.Utils', 'class', '数据配置', 'XGame/Common/Utils/DataConfig.cs'),
+    cls('XGame.Common.Utils.ResourceRef', 'ResourceRef', 'XGame.Common.Utils', 'class', '资源引用', 'XGame/Common/Utils/ResourceRef.cs'),
+    cls('XGame.Common.Utils.ScreenUtil', 'ScreenUtil', 'XGame.Common.Utils', 'static_class', '屏幕工具', 'XGame/Common/Utils/ScreenUtil.cs'),
+    cls('XGame.Common.Utils.Temps', 'Temps', 'XGame.Common.Utils', 'static_class', '临时变量工具', 'XGame/Common/Utils/Temps.cs'),
+    cls('XGame.Common.Utils.EnumUtil', 'EnumUtil', 'XGame.Common.Utils', 'static_class', '枚举工具', 'XGame/Common/Utils/EnumUtil.cs'),
+    cls('XGame.Common.Utils.CoreFileSync', 'CoreFileSync', 'XGame.Common.Utils', 'class', '核心文件同步', 'XGame/Common/Utils/CoreFileSync.cs'),
+    cls('XGame.Common.Utils.Trace', 'Trace', 'XGame.Common.Utils', 'class', '追踪工具', 'XGame/Common/Utils/Trace.cs'),
+
+    // ==========================================================
+    // XGame.Common.Memory (XGameDll)
+    // ==========================================================
+    cls('XGame.Common.Memory.ByteData', 'ByteData', 'XGame.Common.Memory', 'class', '字节数据', 'XGame/Common/Memory/ByteData.cs'),
+    cls('XGame.Common.Memory.IMemPool', 'IMemPool', 'XGame.Common.Memory', 'interface', '内存池接口', 'XGame/Common/Memory/IMemPool.cs'),
+    cls('XGame.Common.Memory.MemPool', 'MemPool', 'XGame.Common.Memory', 'class', '内存池实现', 'XGame/Common/Memory/MemPool.cs'),
+
+    // ==========================================================
+    // XGame.Common.Buffer (XGameDll)
+    // ==========================================================
+    cls('XGame.Common.Buffer.PacketRecv', 'PacketRecv', 'XGame.Common.Buffer', 'class', '接收数据包', 'XGame/Common/Buffer/PacketRecv.cs'),
+    cls('XGame.Common.Buffer.PacketSend', 'PacketSend', 'XGame.Common.Buffer', 'class', '发送数据包', 'XGame/Common/Buffer/PacketSend.cs'),
+
+    // ==========================================================
+    // XGame.Common.Event (XGameDll)
+    // ==========================================================
+    cls('XGame.Common.Event.XGameEvent', 'XGameEvent', 'XGame.Common.Event', 'class', 'XGame事件', 'XGame/Common/Event/XGameEvent.cs', {
+      methods: [
+        method('GetEventID', 'int', [], 'public', '获取事件ID'),
+        method('SetEventID', 'void', ['int'], 'public', '设置事件ID'),
+        method('GetEventData', 'object', [], 'public', '获取事件数据'),
+      ],
+    }),
+
+    // ==========================================================
+    // XGame.Common.Thread (XGameDll)
+    // ==========================================================
+    cls('XGame.Common.Thread.QueueNode', 'QueueNode', 'XGame.Common.Thread', 'class', '队列节点', 'XGame/Common/Thread/QueueNode.cs'),
+    cls('XGame.Common.Thread.ThreadQueue', 'ThreadQueue', 'XGame.Common.Thread', 'class', '线程安全队列', 'XGame/Common/Thread/ThreadQueue.cs'),
+
+    // ==========================================================
+    // XGame.State (XGameDll)
+    // ==========================================================
+    cls('XGame.State.IState', 'IState', 'XGame.State', 'interface', '状态接口', 'XGame/State/IState.cs', {
+      methods: [
+        method('GetStateID', 'int', [], 'public', '获取状态ID'),
+        method('OnEnter', 'void', ['object'], 'public', '进入状态'),
+        method('OnExit', 'void', [], 'public', '退出状态'),
+        method('OnUpdate', 'void', [], 'public', '状态更新'),
+      ],
+    }),
+    cls('XGame.State.IStateMachine', 'IStateMachine', 'XGame.State', 'interface', '状态机接口', 'XGame/State/IStateMachine.cs', {
+      methods: [
+        method('GetCurrentState', 'IState', [], 'public', '获取当前状态'),
+        method('ChangeState', 'void', ['int', 'object'], 'public', '切换状态'),
+        method('OnCreate', 'void', ['object'], 'public', '创建'),
+        method('OnPreChangeState', 'void', ['int', 'int'], 'public', '状态切换前'),
+        method('OnAfterChangeState', 'void', ['int', 'int'], 'public', '状态切换后'),
+      ],
+    }),
+    cls('XGame.State.IStateMachineManager', 'IStateMachineManager', 'XGame.State', 'interface', '状态机管理器接口', 'XGame/State/IStateMachineManager.cs'),
+    cls('XGame.State.IStateSwitchValidator', 'IStateSwitchValidator', 'XGame.State', 'interface', '状态切换校验器接口', 'XGame/State/IStateSwitchValidator.cs', {
+      methods: [method('CanSwitch', 'bool', ['int', 'int'], 'public', '是否可以切换')],
+    }),
+    cls('XGame.State.BaseState', 'BaseState', 'XGame.State', 'abstract_class', '状态基类', 'XGame/State/BaseState.cs', {
+      interfaces: ['IState'],
+      methods: [
+        method('GetStateID', 'int', [], 'public', '获取状态ID'),
+        method('OnEnter', 'void', ['object'], 'public', '进入状态'),
+        method('OnExit', 'void', [], 'public', '退出状态'),
+        method('OnUpdate', 'void', [], 'public', '状态更新'),
+      ],
+    }),
+    cls('XGame.State.BaseStateMachine', 'BaseStateMachine', 'XGame.State', 'abstract_class', '状态机基类', 'XGame/State/BaseStateMachine.cs', {
+      interfaces: ['IStateMachine'],
+      methods: [
+        method('GetCurrentState', 'IState', [], 'public', '获取当前状态'),
+        method('ChangeState', 'void', ['int', 'object'], 'public', '切换状态'),
+        method('OnCreate', 'void', ['object'], 'public', '创建'),
+        method('OnPreChangeState', 'void', ['int', 'int'], 'public', '状态切换前'),
+        method('OnAfterChangeState', 'void', ['int', 'int'], 'public', '状态切换后'),
+      ],
+    }),
+    cls('XGame.State.StateMachineManager', 'StateMachineManager', 'XGame.State', 'class', '状态机管理器', 'XGame/State/StateMachineManager.cs', {
+      interfaces: ['IStateMachineManager'],
+    }),
+
+    // ==========================================================
+    // XGame.EventEngine (XGameDll)
+    // ==========================================================
+    cls('XGame.EventEngine.EventEngine', 'EventEngine', 'XGame.EventEngine', 'class', '事件引擎', 'XGame/EventEngine/EventEngine.cs', {
+      methods: [
+        method('AddSink', 'void', ['IEventExecuteSink', 'int'], 'public', '添加回调'),
+        method('RemoveSink', 'void', ['IEventExecuteSink', 'int'], 'public', '移除回调'),
+        method('ExecuteEvent', 'void', ['int', 'object'], 'public', '执行事件'),
+        method('RegisterEvent', 'void', ['int'], 'public', '注册事件'),
+        method('UnRegisterEvent', 'void', ['int'], 'public', '注销事件'),
+      ],
+    }),
+    cls('XGame.EventEngine.OnEventObject', 'OnEventObject', 'XGame.EventEngine', 'class', '事件对象', 'XGame/EventEngine/OnEventObject.cs'),
+
+    // ==========================================================
+    // XGame.Timer (XGameDll)
+    // ==========================================================
+    cls('XGame.Timer.TimerManager', 'TimerManager', 'XGame.Timer', 'class', '定时器管理器', 'XGame/Timer/TimerManager.cs', {
+      methods: [
+        method('AddTimer', 'void', ['int', 'float', 'int', 'ITimerHandler'], 'public', '添加定时器'),
+        method('KillTimer', 'void', ['int'], 'public', '销毁定时器'),
+        method('KillAllTimer', 'void', [], 'public', '销毁所有定时器'),
+        method('PauseTimer', 'void', ['int'], 'public', '暂停定时器'),
+        method('ResumeTimer', 'void', ['int'], 'public', '恢复定时器'),
+      ],
+    }),
+    cls('XGame.Timer.TimerApi', 'TimerApi', 'XGame.Timer', 'static_class', '定时器API', 'XGame/Timer/TimerApi.cs', {
+      methods: [
+        method('AddTimer', 'int', ['float', 'int', 'ITimerHandler'], 'public', '添加定时器', true),
+        method('KillTimer', 'void', ['int'], 'public', '销毁定时器', true),
+      ],
+    }),
+    cls('XGame.Timer.TimerCollection', 'TimerCollection', 'XGame.Timer', 'class', '定时器集合', 'XGame/Timer/TimerCollection.cs'),
+
+    // ==========================================================
+    // XGame.FrameUpdate (XGameDll)
+    // ==========================================================
+    cls('XGame.FrameUpdate.UpdateNode', 'UpdateNode', 'XGame.FrameUpdate', 'class', '帧更新节点', 'XGame/FrameUpdate/UpdateNode.cs'),
+
+    // ==========================================================
+    // XGame.Net (XGameDll)
+    // ==========================================================
+    cls('XGame.Net.INetCom', 'INetCom', 'XGame.Net', 'interface', '网络组件接口', 'XGame/Net/INetCom.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+      methods: [
+        method('Connect', 'bool', ['string', 'int', 'int'], 'public', '连接'),
+        method('Disconnect', 'void', [], 'public', '断开连接'),
+        method('IsConnected', 'bool', [], 'public', '是否已连接'),
+        method('SendMessage_CS', 'void', ['byte', 'byte', 'TCSMessage'], 'public', '发送CS消息'),
+        method('OnReceiveMsg', 'void', ['TCSMessage'], 'public', '接收消息'),
+        method('GetLatency', 'uint', [], 'public', '获取延迟'),
+      ],
+    }),
+    cls('XGame.Net.NetCom', 'NetCom', 'XGame.Net', 'class', '网络组件实现', 'XGame/Net/NetCom.cs', {
+      interfaces: ['INetCom'],
+      methods: [
+        method('Connect', 'bool', ['string', 'int', 'int'], 'public', '连接'),
+        method('Disconnect', 'void', [], 'public', '断开连接'),
+        method('SendMessage_CS', 'void', ['byte', 'byte', 'TCSMessage'], 'public', '发送CS消息'),
+        method('OnReceiveMsg', 'void', ['TCSMessage'], 'public', '接收消息'),
+        method('IsConnected', 'bool', [], 'public', '是否已连接'),
+      ],
+    }),
+    cls('XGame.Net.IConnection', 'IConnection', 'XGame.Net', 'interface', '连接接口', 'XGame/Net/IConnection.cs', {
+      methods: [
+        method('Connect', 'void', ['string', 'int'], 'public', '连接'),
+        method('Disconnect', 'void', [], 'public', '断开连接'),
+        method('Send', 'void', ['byte[]', 'int'], 'public', '发送数据'),
+        method('IsConnected', 'bool', [], 'public', '是否已连接'),
+      ],
+    }),
+    cls('XGame.Net.ISocketClient', 'ISocketClient', 'XGame.Net', 'interface', 'Socket客户端接口', 'XGame/Net/ISocketClient.cs'),
+    cls('XGame.Net.ISocketSink', 'ISocketSink', 'XGame.Net', 'interface', 'Socket回调接口', 'XGame/Net/ISocketSink.cs'),
+    cls('XGame.Net.TCPSocketClient', 'TCPSocketClient', 'XGame.Net', 'class', 'TCP Socket客户端', 'XGame/Net/TCPSocketClient.cs', {
+      interfaces: ['IConnection'],
+    }),
+    cls('XGame.Net.UDPSocketClient', 'UDPSocketClient', 'XGame.Net', 'class', 'UDP Socket客户端', 'XGame/Net/UDPSocketClient.cs', {
+      interfaces: ['IConnection'],
+    }),
+    cls('XGame.Net.WebSocketClient', 'WebSocketClient', 'XGame.Net', 'class', 'WebSocket客户端', 'XGame/Net/WebSocketClient.cs', {
+      interfaces: ['IConnection'],
+    }),
+    cls('XGame.Net.NetApi', 'NetApi', 'XGame.Net', 'static_class', '网络API', 'XGame/Net/NetApi.cs'),
+    cls('XGame.Net.Connection', 'Connection', 'XGame.Net', 'class', '网关连接', 'XGame/Net/Connection.cs'),
+    cls('XGame.Net.PackageData', 'PackageData', 'XGame.Net', 'class', '网关数据包', 'XGame/Net/PackageData.cs'),
+    cls('XGame.Net.NetComSettings', 'NetComSettings', 'XGame.Net', 'class', '网络设置', 'XGame/Net/NetComSettings.cs'),
+
+    // ==========================================================
+    // XGame.ItemPool (XGameDll)
+    // ==========================================================
+    cls('XGame.ItemPool.IPoolable', 'IPoolable', 'XGame.ItemPool', 'interface', '可池化对象接口', 'XGame/ItemPool/IPoolable.cs', {
+      methods: [
+        method('OnPoolCreate', 'void', [], 'public', '池创建'),
+        method('OnPoolGet', 'void', [], 'public', '池获取'),
+        method('OnPoolRelease', 'void', [], 'public', '池释放'),
+        method('OnPoolDestroy', 'void', [], 'public', '池销毁'),
+      ],
+    }),
+    cls('XGame.ItemPool.IItemPoolManager', 'IItemPoolManager', 'XGame.ItemPool', 'interface', '对象池管理器接口', 'XGame/ItemPool/IItemPoolManager.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.ItemPool.IObjectItemPool', 'IObjectItemPool', 'XGame.ItemPool', 'interface', '对象池接口', 'XGame/ItemPool/IObjectItemPool.cs', {
+      methods: [
+        method('Get', 'T', [], 'public', '获取对象'),
+        method('Release', 'void', ['T'], 'public', '释放对象'),
+        method('Clear', 'void', [], 'public', '清空'),
+      ],
+    }),
+    cls('XGame.ItemPool.PoolableItemPool', 'PoolableItemPool', 'XGame.ItemPool', 'class', '可池化项对象池', 'XGame/ItemPool/PoolableItemPool.cs'),
+    cls('XGame.ItemPool.PoolableObject', 'PoolableObject', 'XGame.ItemPool', 'abstract_class', '可池化对象基类', 'XGame/ItemPool/PoolableObject.cs', {
+      interfaces: ['IPoolable'],
+    }),
+    cls('XGame.ItemPool.LitePoolableObject', 'LitePoolableObject', 'XGame.ItemPool', 'abstract_class', '轻量可池化对象', 'XGame/ItemPool/LitePoolableObject.cs', { baseClass: 'PoolableObject' }),
+    cls('XGame.ItemPool.ObjectItemPool', 'ObjectItemPool', 'XGame.ItemPool', 'class', '对象项对象池', 'XGame/ItemPool/ObjectItemPool.cs'),
+    cls('XGame.ItemPool.ItemPoolBase', 'ItemPoolBase', 'XGame.ItemPool', 'abstract_class', '对象池基类', 'XGame/ItemPool/ItemPoolBase.cs'),
+    cls('XGame.ItemPool.PoolableList', 'PoolableList', 'XGame.ItemPool', 'class', '可池化列表', 'XGame/ItemPool/PoolableList.cs'),
+    cls('XGame.ItemPool.UserData', 'UserData', 'XGame.ItemPool', 'class', '用户数据', 'XGame/ItemPool/UserData.cs'),
+
+    // ==========================================================
+    // XGame.LOP (XGameDll)
+    // ==========================================================
+    cls('XGame.LOP.ILOPSupportable', 'ILOPSupportable', 'XGame.LOP', 'interface', 'LOP支持接口', 'XGame/LOP/ILOPSupportable.cs'),
+    cls('XGame.LOP.ILOPObjectManager', 'ILOPObjectManager', 'XGame.LOP', 'interface', 'LOP对象管理器接口', 'XGame/LOP/ILOPObjectManager.cs'),
+    cls('XGame.LOP.ILOPObjectComponents', 'ILOPObjectComponents', 'XGame.LOP', 'interface', 'LOP对象组件接口', 'XGame/LOP/ILOPObjectComponents.cs'),
+    cls('XGame.LOP.LOPObject', 'LOPObject', 'XGame.LOP', 'class', 'LOP对象', 'XGame/LOP/LOPObject.cs'),
+    cls('XGame.LOP.LOPObjectManager', 'LOPObjectManager', 'XGame.LOP', 'class', 'LOP对象管理器', 'XGame/LOP/LOPObjectManager.cs'),
+    cls('XGame.LOP.LOPObjectComponents', 'LOPObjectComponents', 'XGame.LOP', 'class', 'LOP对象组件', 'XGame/LOP/LOPObjectComponents.cs'),
+    cls('XGame.LOP.LOPObjectComponentsManager', 'LOPObjectComponentsManager', 'XGame.LOP', 'class', 'LOP对象组件管理器', 'XGame/LOP/LOPObjectComponentsManager.cs'),
+    cls('XGame.LOP.LOPObjectComponentsRaw', 'LOPObjectComponentsRaw', 'XGame.LOP', 'class', 'LOP对象原始组件', 'XGame/LOP/LOPObjectComponentsRaw.cs'),
+    cls('XGame.LOP.LOPObjectManagerInstance', 'LOPObjectManagerInstance', 'XGame.LOP', 'class', 'LOP对象管理器实例', 'XGame/LOP/LOPObjectManagerInstance.cs'),
+    cls('XGame.LOP.LOPObjectRegister', 'LOPObjectRegister', 'XGame.LOP', 'class', 'LOP对象注册器', 'XGame/LOP/LOPObjectRegister.cs'),
+    cls('XGame.LOP.LOPProfiler', 'LOPProfiler', 'XGame.LOP', 'class', 'LOP性能分析器', 'XGame/LOP/LOPProfiler.cs'),
+    cls('XGame.LOP.LOPUtility', 'LOPUtility', 'XGame.LOP', 'class', 'LOP工具类', 'XGame/LOP/LOPUtility.cs'),
+
+    // ==========================================================
+    // XGame.Asset (XGameDll)
+    // ==========================================================
+    cls('XGame.Asset.ILoadSystem', 'ILoadSystem', 'XGame.Asset', 'interface', '加载系统接口', 'XGame/Asset/ILoadSystem.cs', {
+      methods: [
+        method('Load', 'uint', ['string', 'int', 'bool', 'bool', 'IResLoaderSink', 'Transform'], 'public', '加载资源'),
+      ],
+    }),
+    cls('XGame.Asset.IAssetBundle', 'IAssetBundle', 'XGame.Asset', 'interface', 'AssetBundle接口', 'XGame/Asset/IAssetBundle.cs'),
+    cls('XGame.Asset.IAsset2Bundle', 'IAsset2Bundle', 'XGame.Asset', 'interface', '资源到Bundle映射接口', 'XGame/Asset/IAsset2Bundle.cs'),
+    cls('XGame.Asset.LoadMgr', 'LoadMgr', 'XGame.Asset', 'class', '加载管理器', 'XGame/Asset/LoadMgr.cs'),
+    cls('XGame.Asset.RequestQueue', 'RequestQueue', 'XGame.Asset', 'class', '请求队列', 'XGame/Asset/RequestQueue.cs'),
+    cls('XGame.Asset.DevLoadSystem', 'DevLoadSystem', 'XGame.Asset', 'class', '开发模式加载系统', 'XGame/Asset/DevLoadSystem.cs'),
+    cls('XGame.Asset.WebLoadSystem', 'WebLoadSystem', 'XGame.Asset', 'class', 'Web加载系统', 'XGame/Asset/WebLoadSystem.cs'),
+    cls('XGame.Asset.DevAssetBundle', 'DevAssetBundle', 'XGame.Asset', 'class', '开发模式AssetBundle', 'XGame/Asset/DevAssetBundle.cs'),
+    cls('XGame.Asset.WebAssetBundle', 'WebAssetBundle', 'XGame.Asset', 'class', 'Web模式AssetBundle', 'XGame/Asset/WebAssetBundle.cs'),
+    cls('XGame.Asset.AssetDef', 'AssetDef', 'XGame.Asset', 'class', '资源定义', 'XGame/Asset/AssetDef.cs'),
+    cls('XGame.Asset.DataProxy', 'DataProxy', 'XGame.Asset', 'class', '数据代理', 'XGame/Asset/DataProxy.cs'),
+    cls('XGame.Asset.Package', 'Package', 'XGame.Asset', 'class', '资源包', 'XGame/Asset/Package.cs'),
+    cls('XGame.Asset.ResUtil', 'ResUtil', 'XGame.Asset', 'class', '资源工具', 'XGame/Asset/ResUtil.cs'),
+
+    // ==========================================================
+    // XGame.Command (XGameDll)
+    // ==========================================================
+    cls('XGame.Command.ICommandManager', 'ICommandManager', 'XGame.Command', 'interface', '命令管理器接口', 'XGame/Command/ICommandManager.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+      methods: [
+        method('Execute', 'void', ['ICommandContext'], 'public', '执行命令'),
+        method('CanExecute', 'bool', ['ICommandContext'], 'public', '是否可执行'),
+      ],
+    }),
+    cls('XGame.Command.ICommandHandler', 'ICommandHandler', 'XGame.Command', 'interface', '命令处理器接口', 'XGame/Command/ICommandHandler.cs', {
+      methods: [
+        method('Execute', 'void', ['ICommandContext'], 'public', '执行命令'),
+        method('CanExecute', 'bool', ['ICommandContext'], 'public', '是否可执行'),
+      ],
+    }),
+    cls('XGame.Command.ICommandContext', 'ICommandContext', 'XGame.Command', 'interface', '命令上下文接口', 'XGame/Command/ICommandContext.cs'),
+    cls('XGame.Command.ICommandQueue', 'ICommandQueue', 'XGame.Command', 'interface', '命令队列接口', 'XGame/Command/ICommandQueue.cs'),
+    cls('XGame.Command.CommandManager', 'CommandManager', 'XGame.Command', 'class', '命令管理器', 'XGame/Command/CommandManager.cs', {
+      interfaces: ['ICommandManager'],
+    }),
+    cls('XGame.Command.CommandHandlerBase', 'CommandHandlerBase', 'XGame.Command', 'abstract_class', '命令处理器基类', 'XGame/Command/CommandHandlerBase.cs', {
+      interfaces: ['ICommandHandler'],
+    }),
+    cls('XGame.Command.CommandContextBase', 'CommandContextBase', 'XGame.Command', 'class', '命令上下文基类', 'XGame/Command/CommandContextBase.cs', {
+      interfaces: ['ICommandContext'],
+    }),
+    cls('XGame.Command.CommandFactory', 'CommandFactory', 'XGame.Command', 'class', '命令工厂', 'XGame/Command/CommandFactory.cs'),
+    cls('XGame.Command.CommandQueue', 'CommandQueue', 'XGame.Command', 'class', '命令队列', 'XGame/Command/CommandQueue.cs', {
+      interfaces: ['ICommandQueue'],
+    }),
+    cls('XGame.Command.DefaultCommandHandler', 'DefaultCommandHandler', 'XGame.Command', 'class', '默认命令处理器', 'XGame/Command/DefaultCommandHandler.cs', { baseClass: 'CommandHandlerBase' }),
+
+    // ==========================================================
+    // XGame.I18N (XGameDll)
+    // ==========================================================
+    cls('XGame.I18N.II18NManager', 'II18NManager', 'XGame.I18N', 'interface', '国际化管理器接口', 'XGame/I18N/II18NManager.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.I18N.I18NManager', 'I18NManager', 'XGame.I18N', 'class', '国际化管理器', 'XGame/I18N/I18NManager.cs', {
+      interfaces: ['II18NManager'],
+    }),
+    cls('XGame.I18N.ELanguage', 'ELanguage', 'XGame.I18N', 'enum', '语言枚举', 'XGame/I18N/ELanguage.cs'),
+    cls('XGame.I18N.I18NConfig', 'I18NConfig', 'XGame.I18N', 'class', '国际化配置', 'XGame/I18N/I18NConfig.cs'),
+    cls('XGame.I18N.ITextTranslater', 'ITextTranslater', 'XGame.I18N', 'interface', '文本翻译器接口', 'XGame/I18N/ITextTranslater.cs'),
+    cls('XGame.I18N.ISpriteLoader', 'ISpriteLoader', 'XGame.I18N', 'interface', '精灵加载器接口', 'XGame/I18N/ISpriteLoader.cs'),
+    cls('XGame.I18N.ILocalizeComp', 'ILocalizeComp', 'XGame.I18N', 'interface', '本地化组件接口', 'XGame/I18N/ILocalizeComp.cs'),
+    cls('XGame.I18N.LocalizeText', 'LocalizeText', 'XGame.I18N', 'class', '本地化文本', 'XGame/I18N/LocalizeText.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.I18N.LocalizeImage', 'LocalizeImage', 'XGame.I18N', 'class', '本地化图片', 'XGame/I18N/LocalizeImage.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.I18N.LocalizeTextMeshPro', 'LocalizeTextMeshPro', 'XGame.I18N', 'class', '本地化TMP文本', 'XGame/I18N/LocalizeTextMeshPro.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.I18N.I18NFontManager', 'I18NFontManager', 'XGame.I18N', 'class', '国际化字体管理器', 'XGame/I18N/I18NFontManager.cs'),
+    cls('XGame.I18N.I18NFontSetter', 'I18NFontSetter', 'XGame.I18N', 'class', '国际化字体设置器', 'XGame/I18N/I18NFontSetter.cs'),
+    cls('XGame.I18N.I18NFontConfig', 'I18NFontConfig', 'XGame.I18N', 'class', '国际化字体配置', 'XGame/I18N/I18NFontConfig.cs'),
+
+    // ==========================================================
+    // XGame.HttpCom (XGameDll)
+    // ==========================================================
+    cls('XGame.HttpCom.IHttp', 'IHttp', 'XGame.HttpCom', 'interface', 'HTTP接口', 'XGame/HttpCom/IHttp.cs', {
+      methods: [
+        method('Get', 'void', ['string', 'Action'], 'public', 'GET请求'),
+        method('Post', 'void', ['string', 'string', 'Action'], 'public', 'POST请求'),
+      ],
+    }),
+    cls('XGame.HttpCom.HTTP', 'HTTP', 'XGame.HttpCom', 'class', 'HTTP实现', 'XGame/HttpCom/HTTP.cs', {
+      interfaces: ['IHttp'],
+    }),
+
+    // ==========================================================
+    // XGame.SpriteAtlas (XGameDll)
+    // ==========================================================
+    cls('XGame.SpriteAtlas.ISpriteAtlasManager', 'ISpriteAtlasManager', 'XGame.SpriteAtlas', 'interface', '图集管理器接口', 'XGame/SpriteAtlas/ISpriteAtlasManager.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.SpriteAtlas.SpriteAtlasManager', 'SpriteAtlasManager', 'XGame.SpriteAtlas', 'class', '图集管理器', 'XGame/SpriteAtlas/SpriteAtlasManager.cs', {
+      interfaces: ['ISpriteAtlasManager'],
+    }),
+    cls('XGame.SpriteAtlas.SpriteAtlasToOthers', 'SpriteAtlasToOthers', 'XGame.SpriteAtlas', 'class', '图集转换工具', 'XGame/SpriteAtlas/SpriteAtlasToOthers.cs'),
+
+    // ==========================================================
+    // XGame.Culling (XGameDll)
+    // ==========================================================
+    cls('XGame.Culling.CullingObject', 'CullingObject', 'XGame.Culling', 'class', '裁剪对象', 'XGame/Culling/CullingObject.cs'),
+    cls('XGame.Culling.CullingObjectManager', 'CullingObjectManager', 'XGame.Culling', 'class', '裁剪对象管理器', 'XGame/Culling/CullingObjectManager.cs'),
+    cls('XGame.Culling.CullingInfo', 'CullingInfo', 'XGame.Culling', 'class', '裁剪信息', 'XGame/Culling/CullingInfo.cs'),
+    cls('XGame.Culling.CullingDefine', 'CullingDefine', 'XGame.Culling', 'class', '裁剪定义', 'XGame/Culling/CullingDefine.cs'),
+    cls('XGame.Culling.CullingCameraCom', 'CullingCameraCom', 'XGame.Culling', 'class', '裁剪相机组件', 'XGame/Culling/CullingCameraCom.cs'),
+    cls('XGame.Culling.OCMgr', 'OCMgr', 'XGame.Culling', 'class', '遮挡剔除管理器', 'XGame/Culling/OCMgr.cs'),
+
+    // ==========================================================
+    // XGame.Curves (XGameDll)
+    // ==========================================================
+    cls('XGame.Curves.IXCurves', 'IXCurves', 'XGame.Curves', 'interface', '曲线接口', 'XGame/Curves/IXCurves.cs'),
+    cls('XGame.Curves.XBezierCurves', 'XBezierCurves', 'XGame.Curves', 'class', '贝塞尔曲线', 'XGame/Curves/XBezierCurves.cs'),
+    cls('XGame.Curves.XCurvesPathCommon', 'XCurvesPathCommon', 'XGame.Curves', 'class', '曲线路径通用', 'XGame/Curves/XCurvesPathCommon.cs'),
+    cls('XGame.Curves.XCurvesPathUtil', 'XCurvesPathUtil', 'XGame.Curves', 'class', '曲线路径工具', 'XGame/Curves/XCurvesPathUtil.cs'),
+    cls('XGame.Curves.XStraightLine', 'XStraightLine', 'XGame.Curves', 'class', '直线', 'XGame/Curves/XStraightLine.cs'),
+
+    // ==========================================================
+    // XGame.GameObjCache (XGameDll)
+    // ==========================================================
+    cls('XGame.GameObjCache.IGameObjectCache', 'IGameObjectCache', 'XGame.GameObjCache', 'interface', '游戏对象缓存接口', 'XGame/GameObjCache/IGameObjectCache.cs'),
+    cls('XGame.GameObjCache.GameObjectCache', 'GameObjectCache', 'XGame.GameObjCache', 'class', '游戏对象缓存', 'XGame/GameObjCache/GameObjectCache.cs'),
+    cls('XGame.GameObjCache.CacheItem', 'CacheItem', 'XGame.GameObjCache', 'class', '缓存项', 'XGame/GameObjCache/CacheItem.cs'),
+
+    // ==========================================================
+    // XGame.Monitor (XGameDll)
+    // ==========================================================
+    cls('XGame.Monitor.MonitorBase', 'MonitorBase', 'XGame.Monitor', 'abstract_class', '监控基类', 'XGame/Monitor/MonitorBase.cs'),
+    cls('XGame.Monitor.MonitorManager', 'MonitorManager', 'XGame.Monitor', 'class', '监控管理器', 'XGame/Monitor/MonitorManager.cs'),
+
+    // ==========================================================
+    // XGame.UpdateEngine (XGameDll)
+    // ==========================================================
+    cls('XGame.UpdateEngine.UpdateClient', 'UpdateClient', 'XGame.UpdateEngine', 'class', '更新客户端', 'XGame/UpdateEngine/UpdateClient.cs'),
+
+    // ==========================================================
+    // XGame.LitJson (XGameDll)
+    // ==========================================================
+    cls('XGame.LitJson.IJsonWrapper', 'IJsonWrapper', 'XGame.LitJson', 'interface', 'JSON包装器接口', 'XGame/LitJson/IJsonWrapper.cs'),
+    cls('XGame.LitJson.JsonData', 'JsonData', 'XGame.LitJson', 'class', 'JSON数据', 'XGame/LitJson/JsonData.cs'),
+    cls('XGame.LitJson.JsonMapper', 'JsonMapper', 'XGame.LitJson', 'static_class', 'JSON映射器', 'XGame/LitJson/JsonMapper.cs', {
+      methods: [
+        method('ToObject', 'T', ['string'], 'public', '反序列化对象', true),
+        method('ToJson', 'string', ['object'], 'public', '序列化为JSON', true),
+      ],
+    }),
+    cls('XGame.LitJson.JsonReader', 'JsonReader', 'XGame.LitJson', 'class', 'JSON读取器', 'XGame/LitJson/JsonReader.cs'),
+    cls('XGame.LitJson.JsonWriter', 'JsonWriter', 'XGame.LitJson', 'class', 'JSON写入器', 'XGame/LitJson/JsonWriter.cs'),
+
+    // ==========================================================
+    // XGame.Attribute (XGameDll)
+    // ==========================================================
+    cls('XGame.Attribute.AutoBind', 'AutoBind', 'XGame.Attribute', 'class', '自动绑定特性', 'XGame/Attribute/AutoBind.cs', { baseClass: 'Attribute' }),
+    cls('XGame.Attribute.CheckerAttribute', 'CheckerAttribute', 'XGame.Attribute', 'class', '检查器特性', 'XGame/Attribute/CheckerAttribute.cs', { baseClass: 'Attribute' }),
+    cls('XGame.Attribute.CustomDisplayAttribute', 'CustomDisplayAttribute', 'XGame.Attribute', 'class', '自定义显示特性', 'XGame/Attribute/CustomDisplayAttribute.cs', { baseClass: 'Attribute' }),
+    cls('XGame.Attribute.DropdownAttribute', 'DropdownAttribute', 'XGame.Attribute', 'class', '下拉框特性', 'XGame/Attribute/DropdownAttribute.cs', { baseClass: 'Attribute' }),
+    cls('XGame.Attribute.EnumNameAttribute', 'EnumNameAttribute', 'XGame.Attribute', 'class', '枚举名称特性', 'XGame/Attribute/EnumNameAttribute.cs', { baseClass: 'Attribute' }),
+    cls('XGame.Attribute.LabelAttribute', 'LabelAttribute', 'XGame.Attribute', 'class', '标签特性', 'XGame/Attribute/LabelAttribute.cs', { baseClass: 'Attribute' }),
+    cls('XGame.Attribute.ReadOnlyAttribute', 'ReadOnlyAttribute', 'XGame.Attribute', 'class', '只读特性', 'XGame/Attribute/ReadOnlyAttribute.cs', { baseClass: 'Attribute' }),
+    cls('XGame.Attribute.SortingLayerAttribute', 'SortingLayerAttribute', 'XGame.Attribute', 'class', '排序层特性', 'XGame/Attribute/SortingLayerAttribute.cs', { baseClass: 'Attribute' }),
+    cls('XGame.Attribute.TitleAttribute', 'TitleAttribute', 'XGame.Attribute', 'class', '标题特性', 'XGame/Attribute/TitleAttribute.cs', { baseClass: 'Attribute' }),
+    cls('XGame.Attribute.ValueMinAttribute', 'ValueMinAttribute', 'XGame.Attribute', 'class', '最小值特性', 'XGame/Attribute/ValueMinAttribute.cs', { baseClass: 'Attribute' }),
+    cls('XGame.Attribute.ValueRangeAttribute', 'ValueRangeAttribute', 'XGame.Attribute', 'class', '值范围特性', 'XGame/Attribute/ValueRangeAttribute.cs', { baseClass: 'Attribute' }),
+
+    // ==========================================================
+    // XGame.Config (XGameDll)
+    // ==========================================================
+    cls('XGame.Config.GameConfig', 'GameConfig', 'XGame.Config', 'class', '游戏配置', 'XGame/Config/GameConfig.cs'),
+
+    // ==========================================================
+    // XGame.UnityExtension (XGameDll)
+    // ==========================================================
+    cls('XGame.UnityExtension.ComponentExtension', 'ComponentExtension', 'XGame.UnityExtension', 'static_class', '组件扩展方法', 'XGame/UnityExtension/ComponentExtension.cs'),
+    cls('XGame.UnityExtension.TransformExtension', 'TransformExtension', 'XGame.UnityExtension', 'static_class', 'Transform扩展方法', 'XGame/UnityExtension/TransformExtension.cs'),
+
+    // ==========================================================
+    // XGame.Anim (XGameDll)
+    // ==========================================================
+    cls('XGame.Anim.AnimBase', 'AnimBase', 'XGame.Anim', 'abstract_class', '特效动画基类', 'XGame/Anim/AnimBase.cs', {
+      baseClass: 'MonoBehaviour',
+      methods: [
+        method('Play', 'void', ['bool', 'float'], 'public', '播放'),
+        method('Stop', 'void', [], 'public', '停止'),
+        method('Init', 'void', [], 'public', '初始化'),
+        method('Sample', 'void', ['float'], 'public', '采样'),
+        method('GetDuration', 'float', [], 'public', '获取时长'),
+        method('AddFinishedListener', 'void', ['Action<bool>'], 'public', '添加完成监听'),
+      ],
+    }),
+    cls('XGame.Anim.TweenCore', 'TweenCore', 'XGame.Anim', 'abstract_class', 'Tween动画基类', 'XGame/Anim/TweenCore.cs', {
+      baseClass: 'AnimBase',
+      properties: [
+        prop('duration', 'float', '持续时间'),
+        prop('playMode', 'int', '播放模式'),
+        prop('easeType', 'int', '缓动类型'),
+      ],
+    }),
+    cls('XGame.Anim.TweenBase', 'TweenBase', 'XGame.Anim', 'abstract_class', '泛型Tween基类', 'XGame/Anim/TweenBase.cs', { baseClass: 'TweenCore' }),
+    cls('XGame.Anim.PropertyTween', 'PropertyTween', 'XGame.Anim', 'abstract_class', '属性Tween基类', 'XGame/Anim/PropertyTween.cs', { baseClass: 'TweenBase' }),
+    cls('XGame.Anim.TweenPlayer', 'TweenPlayer', 'XGame.Anim', 'class', 'Tween播放器', 'XGame/Anim/TweenPlayer.cs', {
+      methods: [
+        method('Play', 'void', [], 'public', '播放'),
+        method('Stop', 'void', [], 'public', '停止'),
+        method('AppendTweenArray', 'void', ['List<TweenCore>'], 'public', '追加Tween数组'),
+      ],
+    }),
+    cls('XGame.Anim.TweenSequence', 'TweenSequence', 'XGame.Anim', 'class', 'Tween序列', 'XGame/Anim/TweenSequence.cs', {
+      methods: [
+        method('Append', 'void', ['TweenCore'], 'public', '追加'),
+        method('Join', 'void', ['TweenCore'], 'public', '合并'),
+        method('Play', 'void', [], 'public', '播放'),
+        method('Stop', 'void', [], 'public', '停止'),
+      ],
+    }),
+    cls('XGame.Anim.Interpolate', 'Interpolate', 'XGame.Anim', 'static_class', '插值工具', 'XGame/Anim/Interpolate.cs', {
+      methods: [
+        method('Ease', 'float', ['float', 'EaseType'], 'public', '缓动', true),
+        method('Bezier', 'Vector3', ['float', 'Vector3', 'Vector3', 'Vector3'], 'public', '贝塞尔', true),
+      ],
+    }),
+    cls('XGame.Anim.TweenPosition', 'TweenPosition', 'XGame.Anim', 'class', '位移Tween', 'XGame/Anim/TweenPosition.cs', { baseClass: 'Vector3PropertyTween' }),
+    cls('XGame.Anim.TweenRotation', 'TweenRotation', 'XGame.Anim', 'class', '旋转Tween', 'XGame/Anim/TweenRotation.cs', { baseClass: 'Vector3PropertyTween' }),
+    cls('XGame.Anim.TweenScale', 'TweenScale', 'XGame.Anim', 'class', '缩放Tween', 'XGame/Anim/TweenScale.cs', { baseClass: 'Vector3PropertyTween' }),
+    cls('XGame.Anim.TweenColor', 'TweenColor', 'XGame.Anim', 'class', '颜色Tween', 'XGame/Anim/TweenColor.cs', { baseClass: 'ColorPropertyTween' }),
+    cls('XGame.Anim.TweenAlpha', 'TweenAlpha', 'XGame.Anim', 'class', '透明度Tween', 'XGame/Anim/TweenAlpha.cs', { baseClass: 'FloatPropertyTween' }),
+    cls('XGame.Anim.TweenCanvasGroupAlpha', 'TweenCanvasGroupAlpha', 'XGame.Anim', 'class', 'CanvasGroup透明度Tween', 'XGame/Anim/TweenCanvasGroupAlpha.cs', { baseClass: 'FloatPropertyTween' }),
+    cls('XGame.Anim.FloatPropertyTween', 'FloatPropertyTween', 'XGame.Anim', 'abstract_class', '浮点属性Tween', 'XGame/Anim/FloatPropertyTween.cs', { baseClass: 'PropertyTween' }),
+    cls('XGame.Anim.Vector3PropertyTween', 'Vector3PropertyTween', 'XGame.Anim', 'abstract_class', 'Vector3属性Tween', 'XGame/Anim/Vector3PropertyTween.cs', { baseClass: 'TweenBase' }),
+    cls('XGame.Anim.ColorPropertyTween', 'ColorPropertyTween', 'XGame.Anim', 'abstract_class', 'Color属性Tween', 'XGame/Anim/ColorPropertyTween.cs', { baseClass: 'TweenBase' }),
+
+    // ==========================================================
+    // XGame.Audio (XGameDll)
+    // ==========================================================
+    cls('XGame.Audio.IAudioCom', 'IAudioCom', 'XGame.Audio', 'interface', '音效组件接口', 'XGame/Audio/IAudioCom.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+      methods: [
+        method('Play', 'int', ['int', 'PlayAudioParams'], 'public', '播放音效'),
+        method('Stop', 'void', ['int'], 'public', '停止音效'),
+        method('Pause', 'void', ['int'], 'public', '暂停音效'),
+        method('Resume', 'void', ['int'], 'public', '恢复音效'),
+        method('SetVolume', 'void', ['int', 'float'], 'public', '设置音量'),
+      ],
+    }),
+    cls('XGame.Audio.IAudioPlayer', 'IAudioPlayer', 'XGame.Audio', 'interface', '音效播放器接口', 'XGame/Audio/IAudioPlayer.cs'),
+    cls('XGame.Audio.IAudioLoader', 'IAudioLoader', 'XGame.Audio', 'interface', '音效加载器接口', 'XGame/Audio/IAudioLoader.cs'),
+    cls('XGame.Audio.AudioCom', 'AudioCom', 'XGame.Audio', 'class', '音效组件实现', 'XGame/Audio/AudioCom.cs', {
+      interfaces: ['IAudioCom'],
+    }),
+    cls('XGame.Audio.AudioPlayer', 'AudioPlayer', 'XGame.Audio', 'class', '音效播放器', 'XGame/Audio/AudioPlayer.cs', {
+      interfaces: ['IAudioPlayer'],
+    }),
+    cls('XGame.Audio.AudioNode', 'AudioNode', 'XGame.Audio', 'class', '音效节点', 'XGame/Audio/AudioNode.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.Audio.AudioMixerGroupManager', 'AudioMixerGroupManager', 'XGame.Audio', 'class', '混音器组管理器', 'XGame/Audio/AudioMixerGroupManager.cs'),
+    cls('XGame.Audio.DefaultAudioLoader', 'DefaultAudioLoader', 'XGame.Audio', 'class', '默认音效加载器', 'XGame/Audio/DefaultAudioLoader.cs', {
+      interfaces: ['IAudioLoader'],
+    }),
+
+    // ==========================================================
+    // XGame.Effect (XGameDll)
+    // ==========================================================
+    cls('XGame.Effect.IEffectCom', 'IEffectCom', 'XGame.Effect', 'interface', '特效组件接口', 'XGame/Effect/IEffectCom.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.Effect.IEffect', 'IEffect', 'XGame.Effect', 'interface', '特效接口', 'XGame/Effect/IEffect.cs', {
+      methods: [
+        method('Play', 'void', [], 'public', '播放'),
+        method('Stop', 'void', [], 'public', '停止'),
+        method('IsPlaying', 'bool', [], 'public', '是否播放中'),
+      ],
+    }),
+    cls('XGame.Effect.EffectCom', 'EffectCom', 'XGame.Effect', 'class', '特效组件实现', 'XGame/Effect/EffectCom.cs', {
+      interfaces: ['IEffectCom'],
+    }),
+    cls('XGame.Effect.EffectFacade', 'EffectFacade', 'XGame.Effect', 'class', '特效外观类', 'XGame/Effect/EffectFacade.cs'),
+    cls('XGame.Effect.EffectPlayer', 'EffectPlayer', 'XGame.Effect', 'class', '特效播放器', 'XGame/Effect/EffectPlayer.cs'),
+    cls('XGame.Effect.Effect_Animation', 'Effect_Animation', 'XGame.Effect', 'class', '动画特效', 'XGame/Effect/Effect_Animation.cs'),
+    cls('XGame.Effect.Effect_Animator', 'Effect_Animator', 'XGame.Effect', 'class', 'Animator特效', 'XGame/Effect/Effect_Animator.cs'),
+    cls('XGame.Effect.Effect_ParticleSystem', 'Effect_ParticleSystem', 'XGame.Effect', 'class', '粒子特效', 'XGame/Effect/Effect_ParticleSystem.cs'),
+    cls('XGame.Effect.Effect_PlaySound', 'Effect_PlaySound', 'XGame.Effect', 'class', '播放声音特效', 'XGame/Effect/Effect_PlaySound.cs'),
+    cls('XGame.Effect.ParabolaEffect', 'ParabolaEffect', 'XGame.Effect', 'class', '抛物线特效', 'XGame/Effect/ParabolaEffect.cs'),
+    cls('XGame.Effect.ShieldBase', 'ShieldBase', 'XGame.Effect', 'abstract_class', '护盾基类', 'XGame/Effect/ShieldBase.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.Effect.ForceShield', 'ForceShield', 'XGame.Effect', 'class', '力场护盾', 'XGame/Effect/ForceShield.cs', { baseClass: 'ShieldBase' }),
+    cls('XGame.Effect.SpreadShield', 'SpreadShield', 'XGame.Effect', 'class', '扩散护盾', 'XGame/Effect/SpreadShield.cs', { baseClass: 'ShieldBase' }),
+
+    // ==========================================================
+    // XGame.Entity (XGameDll)
+    // ==========================================================
+    cls('XGame.Entity.IEntity', 'IEntity', 'XGame.Entity', 'interface', '实体接口', 'XGame/Entity/IEntity.cs', {
+      baseClass: 'IPoolable',
+      interfaces: ['IPoolable'],
+      methods: [
+        method('GetEntityType', 'int', [], 'public', '获取实体类型'),
+        method('GetEntityID', 'long', [], 'public', '获取实体ID'),
+        method('Create', 'void', [], 'public', '创建'),
+        method('Release', 'void', [], 'public', '释放'),
+      ],
+    }),
+    cls('XGame.Entity.IVisibleEntity', 'IVisibleEntity', 'XGame.Entity', 'interface', '可见实体接口', 'XGame/Entity/IVisibleEntity.cs', {
+      baseClass: 'IEntity',
+      interfaces: ['IEntity'],
+    }),
+    cls('XGame.Entity.IRoleEntity', 'IRoleEntity', 'XGame.Entity', 'interface', '角色实体接口', 'XGame/Entity/IRoleEntity.cs', {
+      baseClass: 'IVisibleEntity',
+      interfaces: ['IVisibleEntity'],
+    }),
+    cls('XGame.Entity.IGoodsEntity', 'IGoodsEntity', 'XGame.Entity', 'interface', '物品实体接口', 'XGame/Entity/IGoodsEntity.cs', {
+      baseClass: 'IEntity',
+      interfaces: ['IEntity'],
+    }),
+    cls('XGame.Entity.IEntityWorld', 'IEntityWorld', 'XGame.Entity', 'interface', '实体世界接口', 'XGame/Entity/IEntityWorld.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.Entity.IEntityManager', 'IEntityManager', 'XGame.Entity', 'interface', '实体管理器接口', 'XGame/Entity/IEntityManager.cs'),
+    cls('XGame.Entity.IEntityPart', 'IEntityPart', 'XGame.Entity', 'interface', '实体部件接口', 'XGame/Entity/IEntityPart.cs', {
+      methods: [
+        method('GetPartType', 'int', [], 'public', '获取部件类型'),
+        method('Create', 'void', [], 'public', '创建'),
+        method('Release', 'void', [], 'public', '释放'),
+      ],
+    }),
+    cls('XGame.Entity.IVisiblePart', 'IVisiblePart', 'XGame.Entity', 'interface', '可见部件接口', 'XGame/Entity/IVisiblePart.cs', {
+      baseClass: 'IEntityPart',
+      interfaces: ['IEntityPart'],
+    }),
+    cls('XGame.Entity.BaseEntity', 'BaseEntity', 'XGame.Entity', 'abstract_class', '实体基类', 'XGame/Entity/BaseEntity.cs', {
+      interfaces: ['IEntity'],
+    }),
+    cls('XGame.Entity.VisibleEntity', 'VisibleEntity', 'XGame.Entity', 'abstract_class', '可见实体', 'XGame/Entity/VisibleEntity.cs', {
+      baseClass: 'BaseEntity',
+      interfaces: ['IVisibleEntity'],
+    }),
+    cls('XGame.Entity.EntityWorld', 'EntityWorld', 'XGame.Entity', 'class', '实体世界', 'XGame/Entity/EntityWorld.cs', {
+      interfaces: ['IEntityWorld'],
+    }),
+    cls('XGame.Entity.EntityManager', 'EntityManager', 'XGame.Entity', 'class', '实体管理器', 'XGame/Entity/EntityManager.cs', {
+      interfaces: ['IEntityManager'],
+    }),
+    cls('XGame.Entity.EntityFactory', 'EntityFactory', 'XGame.Entity', 'class', '实体工厂', 'XGame/Entity/EntityFactory.cs'),
+    cls('XGame.Entity.EntityIDGenerator', 'EntityIDGenerator', 'XGame.Entity', 'class', '实体ID生成器', 'XGame/Entity/EntityIDGenerator.cs'),
+    cls('XGame.Entity.EntityDef', 'EntityDef', 'XGame.Entity', 'class', '实体定义', 'XGame/Entity/EntityDef.cs'),
+    cls('XGame.Entity.BasePart', 'BasePart', 'XGame.Entity', 'abstract_class', '部件基类', 'XGame/Entity/BasePart.cs', {
+      interfaces: ['IEntityPart'],
+    }),
+    cls('XGame.Entity.PrefabPart', 'PrefabPart', 'XGame.Entity', 'class', '预制体部件', 'XGame/Entity/PrefabPart.cs', { baseClass: 'BasePart' }),
+    cls('XGame.Entity.VisiblePart', 'VisiblePart', 'XGame.Entity', 'abstract_class', '可见部件', 'XGame/Entity/VisiblePart.cs', {
+      baseClass: 'BasePart',
+      interfaces: ['IVisiblePart'],
+    }),
+    cls('XGame.Entity.MovePart', 'MovePart', 'XGame.Entity', 'class', '移动部件', 'XGame/Entity/MovePart.cs', { baseClass: 'BasePart' }),
+    cls('XGame.Entity.LightnEffectPart', 'LightnEffectPart', 'XGame.Entity', 'class', '光效部件', 'XGame/Entity/LightnEffectPart.cs', { baseClass: 'BasePart' }),
+
+    // ==========================================================
+    // XGame.EcoMode (XGameDll)
+    // ==========================================================
+    cls('XGame.EcoMode.IEcoMode', 'IEcoMode', 'XGame.EcoMode', 'interface', '节能模式接口', 'XGame/EcoMode/IEcoMode.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.EcoMode.EcoMode', 'EcoMode', 'XGame.EcoMode', 'class', '节能模式实现', 'XGame/EcoMode/EcoMode.cs', {
+      interfaces: ['IEcoMode'],
+    }),
+    cls('XGame.EcoMode.LockScreen', 'LockScreen', 'XGame.EcoMode', 'class', '锁屏处理', 'XGame/EcoMode/LockScreen.cs'),
+    cls('XGame.EcoMode.LowPower', 'LowPower', 'XGame.EcoMode', 'class', '低功耗处理', 'XGame/EcoMode/LowPower.cs'),
+
+    // ==========================================================
+    // XGame.FlowText (XGameDll)
+    // ==========================================================
+    cls('XGame.FlowText.IFlowTextManager', 'IFlowTextManager', 'XGame.FlowText', 'interface', '飘字管理器接口', 'XGame/FlowText/IFlowTextManager.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.FlowText.IFlowTextView', 'IFlowTextView', 'XGame.FlowText', 'interface', '飘字视图接口', 'XGame/FlowText/IFlowTextView.cs'),
+    cls('XGame.FlowText.FlowTextManager', 'FlowTextManager', 'XGame.FlowText', 'class', '飘字管理器实现', 'XGame/FlowText/FlowTextManager.cs', {
+      interfaces: ['IFlowTextManager'],
+    }),
+    cls('XGame.FlowText.FlowTextCalcer', 'FlowTextCalcer', 'XGame.FlowText', 'class', '飘字计算器', 'XGame/FlowText/FlowTextCalcer.cs'),
+    cls('XGame.FlowText.FlowTextNode', 'FlowTextNode', 'XGame.FlowText', 'class', '飘字节点', 'XGame/FlowText/FlowTextNode.cs'),
+    cls('XGame.FlowText.FlowTextLayer', 'FlowTextLayer', 'XGame.FlowText', 'class', '飘字层', 'XGame/FlowText/FlowTextLayer.cs'),
+    cls('XGame.FlowText.BaseFlowTextView', 'BaseFlowTextView', 'XGame.FlowText', 'abstract_class', '飘字视图基类', 'XGame/FlowText/BaseFlowTextView.cs'),
+    cls('XGame.FlowText.UGUIFlowTextView', 'UGUIFlowTextView', 'XGame.FlowText', 'class', 'UGUI飘字视图', 'XGame/FlowText/UGUIFlowTextView.cs', { baseClass: 'BaseFlowTextView' }),
+
+    // ==========================================================
+    // XGame.FlyEffect (XGameDll)
+    // ==========================================================
+    cls('XGame.FlyEffect.IFlyEffectManager', 'IFlyEffectManager', 'XGame.FlyEffect', 'interface', '飞行特效管理器接口', 'XGame/FlyEffect/IFlyEffectManager.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.FlyEffect.IFlyEffectObject', 'IFlyEffectObject', 'XGame.FlyEffect', 'interface', '飞行特效对象接口', 'XGame/FlyEffect/IFlyEffectObject.cs'),
+    cls('XGame.FlyEffect.FlyEffectManager', 'FlyEffectManager', 'XGame.FlyEffect', 'class', '飞行特效管理器', 'XGame/FlyEffect/FlyEffectManager.cs', {
+      interfaces: ['IFlyEffectManager'],
+    }),
+    cls('XGame.FlyEffect.FlyEffectObject', 'FlyEffectObject', 'XGame.FlyEffect', 'class', '飞行特效对象', 'XGame/FlyEffect/FlyEffectObject.cs'),
+    cls('XGame.FlyEffect.FlyEffectViewBase', 'FlyEffectViewBase', 'XGame.FlyEffect', 'abstract_class', '飞行特效视图基类', 'XGame/FlyEffect/FlyEffectViewBase.cs'),
+
+    // ==========================================================
+    // XGame.Guide (XGameDll)
+    // ==========================================================
+    cls('XGame.Guide.IGuideManager', 'IGuideManager', 'XGame.Guide', 'interface', '引导管理器接口', 'XGame/Guide/IGuideManager.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.Guide.IGuideManagerSink', 'IGuideManagerSink', 'XGame.Guide', 'interface', '引导回调接口', 'XGame/Guide/IGuideManagerSink.cs'),
+    cls('XGame.Guide.GuideManager', 'GuideManager', 'XGame.Guide', 'class', '引导管理器', 'XGame/Guide/GuideManager.cs', {
+      interfaces: ['IGuideManager'],
+    }),
+    cls('XGame.Guide.GuideNode', 'GuideNode', 'XGame.Guide', 'class', '引导节点', 'XGame/Guide/GuideNode.cs'),
+    cls('XGame.Guide.GuideStep', 'GuideStep', 'XGame.Guide', 'class', '引导步骤', 'XGame/Guide/GuideStep.cs'),
+    cls('XGame.Guide.GuideFactory', 'GuideFactory', 'XGame.Guide', 'class', '引导工厂', 'XGame/Guide/GuideFactory.cs'),
+    cls('XGame.Guide.GuideAction', 'GuideAction', 'XGame.Guide', 'abstract_class', '引导动作基类', 'XGame/Guide/GuideAction.cs'),
+    cls('XGame.Guide.GuideCondition', 'GuideCondition', 'XGame.Guide', 'abstract_class', '引导条件基类', 'XGame/Guide/GuideCondition.cs'),
+    cls('XGame.Guide.GuideTrigger', 'GuideTrigger', 'XGame.Guide', 'abstract_class', '引导触发器基类', 'XGame/Guide/GuideTrigger.cs'),
+    cls('XGame.Guide.GuideMask', 'GuideMask', 'XGame.Guide', 'class', '引导遮罩', 'XGame/Guide/GuideMask.cs'),
+    cls('XGame.Guide.GuideLayer', 'GuideLayer', 'XGame.Guide', 'class', '引导层', 'XGame/Guide/GuideLayer.cs'),
+    cls('XGame.Guide.GuideBubble', 'GuideBubble', 'XGame.Guide', 'class', '引导气泡', 'XGame/Guide/GuideBubble.cs'),
+    cls('XGame.Guide.GuideBubbleManager', 'GuideBubbleManager', 'XGame.Guide', 'class', '引导气泡管理器', 'XGame/Guide/GuideBubbleManager.cs'),
+
+    // ==========================================================
+    // XGame.LightingEff (XGameDll)
+    // ==========================================================
+    cls('XGame.LightingEff.ILightingEffectManager', 'ILightingEffectManager', 'XGame.LightingEff', 'interface', '光效管理器接口', 'XGame/LightingEff/ILightingEffectManager.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.LightingEff.LightingEffectManager', 'LightingEffectManager', 'XGame.LightingEff', 'class', '光效管理器', 'XGame/LightingEff/LightingEffectManager.cs', {
+      interfaces: ['ILightingEffectManager'],
+    }),
+    cls('XGame.LightingEff.LightingEffectFacade', 'LightingEffectFacade', 'XGame.LightingEff', 'class', '光效外观类', 'XGame/LightingEff/LightingEffectFacade.cs'),
+    cls('XGame.LightingEff.LightingEffectPlayer', 'LightingEffectPlayer', 'XGame.LightingEff', 'class', '光效播放器', 'XGame/LightingEff/LightingEffectPlayer.cs'),
+    cls('XGame.LightingEff.LightingEffectFactory', 'LightingEffectFactory', 'XGame.LightingEff', 'class', '光效工厂', 'XGame/LightingEff/LightingEffectFactory.cs'),
+    cls('XGame.LightingEff.LightingEffectBase', 'LightingEffectBase', 'XGame.LightingEff', 'abstract_class', '光效基类', 'XGame/LightingEff/LightingEffectBase.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.LightingEff.LightingEffectBind', 'LightingEffectBind', 'XGame.LightingEff', 'class', '绑定光效', 'XGame/LightingEff/LightingEffectBind.cs', { baseClass: 'LightingEffectBase' }),
+    cls('XGame.LightingEff.LightingEffectPosition', 'LightingEffectPosition', 'XGame.LightingEff', 'class', '定位光效', 'XGame/LightingEff/LightingEffectPosition.cs', { baseClass: 'LightingEffectBase' }),
+    cls('XGame.LightingEff.LightingEffectUI', 'LightingEffectUI', 'XGame.LightingEff', 'class', 'UI光效', 'XGame/LightingEff/LightingEffectUI.cs', { baseClass: 'LightingEffectBase' }),
+
+    // ==========================================================
+    // XGame.Reddot (XGameDll)
+    // ==========================================================
+    cls('XGame.Reddot.IReddotManager', 'IReddotManager', 'XGame.Reddot', 'interface', '红点管理器接口', 'XGame/Reddot/IReddotManager.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.Reddot.ReddotManager', 'ReddotManager', 'XGame.Reddot', 'class', '红点管理器', 'XGame/Reddot/ReddotManager.cs', {
+      interfaces: ['IReddotManager'],
+    }),
+    cls('XGame.Reddot.ReddotData', 'ReddotData', 'XGame.Reddot', 'class', '红点数据', 'XGame/Reddot/ReddotData.cs'),
+    cls('XGame.Reddot.ReddotView', 'ReddotView', 'XGame.Reddot', 'class', '红点视图', 'XGame/Reddot/ReddotView.cs'),
+    cls('XGame.Reddot.ReddotIcon', 'ReddotIcon', 'XGame.Reddot', 'class', '红点图标', 'XGame/Reddot/ReddotIcon.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.Reddot.ReddotSettings', 'ReddotSettings', 'XGame.Reddot', 'class', '红点设置', 'XGame/Reddot/ReddotSettings.cs', { baseClass: 'ScriptableObject' }),
+
+    // ==========================================================
+    // XGame.UI (XGameDll)
+    // ==========================================================
+    cls('XGame.UI.IUISortingManager', 'IUISortingManager', 'XGame.UI', 'interface', 'UI排序管理器接口', 'XGame/UI/IUISortingManager.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.UI.UISortingManager', 'UISortingManager', 'XGame.UI', 'class', 'UI排序管理器', 'XGame/UI/UISortingManager.cs', {
+      interfaces: ['IUISortingManager'],
+    }),
+    cls('XGame.UI.GraphicGreyManager', 'GraphicGreyManager', 'XGame.UI', 'class', '图形灰化管理器', 'XGame/UI/GraphicGreyManager.cs'),
+    cls('XGame.UI.UIStateSwitcher', 'UIStateSwitcher', 'XGame.UI', 'static_class', 'UI状态切换器', 'XGame/UI/UIStateSwitcher.cs'),
+    cls('XGame.UI.UIStateSwitcherManager', 'UIStateSwitcherManager', 'XGame.UI', 'class', 'UI状态切换管理器', 'XGame/UI/UIStateSwitcherManager.cs'),
+    cls('XGame.UI.BaseMonoStateSwitcher', 'BaseMonoStateSwitcher', 'XGame.UI', 'abstract_class', 'Mono状态切换器基类', 'XGame/UI/BaseMonoStateSwitcher.cs', {
+      baseClass: 'MonoBehaviour',
+      interfaces: ['IMonoStateSwitcher'],
+    }),
+    cls('XGame.UI.UIAnimationNode', 'UIAnimationNode', 'XGame.UI', 'class', 'UI动画节点', 'XGame/UI/UIAnimationNode.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.UI.ButtonExtend', 'ButtonExtend', 'XGame.UI', 'class', '按钮扩展', 'XGame/UI/ButtonExtend.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.UI.VirtualJoystick', 'VirtualJoystick', 'XGame.UI', 'class', '虚拟摇杆', 'XGame/UI/VirtualJoystick.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.UI.UICircleImage', 'UICircleImage', 'XGame.UI', 'class', '圆形图片', 'XGame/UI/UICircleImage.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.UI.ImageAdvance', 'ImageAdvance', 'XGame.UI', 'class', '高级图片', 'XGame/UI/ImageAdvance.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.UI.ImageScroller', 'ImageScroller', 'XGame.UI', 'class', '图片滚动器', 'XGame/UI/ImageScroller.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.UI.UIDrag', 'UIDrag', 'XGame.UI', 'class', 'UI拖拽', 'XGame/UI/UIDrag.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.UI.GraphicRaycasterEx', 'GraphicRaycasterEx', 'XGame.UI', 'class', '图形射线扩展', 'XGame/UI/GraphicRaycasterEx.cs', { baseClass: 'GraphicRaycaster' }),
+
+    // ==========================================================
+    // XGame.NewAnimator (XGameDll)
+    // ==========================================================
+    cls('XGame.NewAnimator.IActionPlayer', 'IActionPlayer', 'XGame.NewAnimator', 'interface', '动作播放器接口', 'XGame/NewAnimator/IActionPlayer.cs'),
+    cls('XGame.NewAnimator.IActionSink', 'IActionSink', 'XGame.NewAnimator', 'interface', '动作回调接口', 'XGame/NewAnimator/IActionSink.cs'),
+    cls('XGame.NewAnimator.IAnimationEventSink', 'IAnimationEventSink', 'XGame.NewAnimator', 'interface', '动画事件回调接口', 'XGame/NewAnimator/IAnimationEventSink.cs'),
+    cls('XGame.NewAnimator.ActionPlayer', 'ActionPlayer', 'XGame.NewAnimator', 'class', '动作播放器', 'XGame/NewAnimator/ActionPlayer.cs', {
+      interfaces: ['IActionPlayer'],
+    }),
+    cls('XGame.NewAnimator.AnimationEventHandler', 'AnimationEventHandler', 'XGame.NewAnimator', 'class', '动画事件处理器', 'XGame/NewAnimator/AnimationEventHandler.cs'),
+    cls('XGame.NewAnimator.AnimationEventManager', 'AnimationEventManager', 'XGame.NewAnimator', 'class', '动画事件管理器', 'XGame/NewAnimator/AnimationEventManager.cs'),
+    cls('XGame.NewAnimator.RuntimeActionNode', 'RuntimeActionNode', 'XGame.NewAnimator', 'class', '运行时动作节点', 'XGame/NewAnimator/RuntimeActionNode.cs'),
+    cls('XGame.NewAnimator.AnimatorConfig', 'AnimatorConfig', 'XGame.NewAnimator', 'class', '动画配置', 'XGame/NewAnimator/AnimatorConfig.cs'),
+    cls('XGame.NewAnimator.ActionNodeData', 'ActionNodeData', 'XGame.NewAnimator', 'class', '动作节点数据', 'XGame/NewAnimator/ActionNodeData.cs'),
+
+    // ==========================================================
+    // XGame.Performance (XGameDll)
+    // ==========================================================
+    cls('XGame.Performance.IPerformanceCom', 'IPerformanceCom', 'XGame.Performance', 'interface', '性能组件接口', 'XGame/Performance/IPerformanceCom.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.Performance.IPerformanceManager', 'IPerformanceManager', 'XGame.Performance', 'interface', '性能管理器接口', 'XGame/Performance/IPerformanceManager.cs'),
+    cls('XGame.Performance.PerformanceComImpl', 'PerformanceComImpl', 'XGame.Performance', 'class', '性能组件实现', 'XGame/Performance/PerformanceComImpl.cs', {
+      interfaces: ['IPerformanceCom'],
+    }),
+    cls('XGame.Performance.PerformanceManager', 'PerformanceManager', 'XGame.Performance', 'class', '性能管理器', 'XGame/Performance/PerformanceManager.cs', {
+      interfaces: ['IPerformanceManager'],
+    }),
+
+    // ==========================================================
+    // XGame.Chat (XGameDll)
+    // ==========================================================
+    cls('XGame.Chat.IChatMessageManager', 'IChatMessageManager', 'XGame.Chat', 'interface', '聊天消息管理器接口', 'XGame/Chat/IChatMessageManager.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.Chat.ChatMessageManager', 'ChatMessageManager', 'XGame.Chat', 'class', '聊天消息管理器', 'XGame/Chat/ChatMessageManager.cs', {
+      interfaces: ['IChatMessageManager'],
+    }),
+    cls('XGame.Chat.ChatMessageManagerSink', 'ChatMessageManagerSink', 'XGame.Chat', 'class', '聊天消息回调', 'XGame/Chat/ChatMessageManagerSink.cs'),
+    cls('XGame.Chat.ChatMessageView', 'ChatMessageView', 'XGame.Chat', 'class', '聊天消息视图', 'XGame/Chat/ChatMessageView.cs'),
+    cls('XGame.Chat.ChatMessageItemView', 'ChatMessageItemView', 'XGame.Chat', 'class', '聊天消息项视图', 'XGame/Chat/ChatMessageItemView.cs'),
+
+    // ==========================================================
+    // XGame.FunctionIcon (XGameDll)
+    // ==========================================================
+    cls('XGame.FunctionIcon.IFunctionIconManager', 'IFunctionIconManager', 'XGame.FunctionIcon', 'interface', '功能图标管理器接口', 'XGame/FunctionIcon/IFunctionIconManager.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.FunctionIcon.FunctionIconManager', 'FunctionIconManager', 'XGame.FunctionIcon', 'class', '功能图标管理器', 'XGame/FunctionIcon/FunctionIconManager.cs', {
+      interfaces: ['IFunctionIconManager'],
+    }),
+
+    // ==========================================================
+    // XGame.FunctionOpen (XGameDll)
+    // ==========================================================
+    cls('XGame.FunctionOpen.IFunctionOpenManager', 'IFunctionOpenManager', 'XGame.FunctionOpen', 'interface', '功能开放管理器接口', 'XGame/FunctionOpen/IFunctionOpenManager.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.FunctionOpen.FunctionOpenManager', 'FunctionOpenManager', 'XGame.FunctionOpen', 'class', '功能开放管理器', 'XGame/FunctionOpen/FunctionOpenManager.cs', {
+      interfaces: ['IFunctionOpenManager'],
+    }),
+    cls('XGame.FunctionOpen.FunctionOpenNode', 'FunctionOpenNode', 'XGame.FunctionOpen', 'class', '功能开放节点', 'XGame/FunctionOpen/FunctionOpenNode.cs'),
+    cls('XGame.FunctionOpen.FunctionOpenFactory', 'FunctionOpenFactory', 'XGame.FunctionOpen', 'class', '功能开放工厂', 'XGame/FunctionOpen/FunctionOpenFactory.cs'),
+
+    // ==========================================================
+    // XGame.Preload (XGameDll)
+    // ==========================================================
+    cls('XGame.Preload.IPreloader', 'IPreloader', 'XGame.Preload', 'interface', '预加载组件接口', 'XGame/Preload/IPreloader.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.Preload.PreLoader', 'PreLoader', 'XGame.Preload', 'class', '预加载器', 'XGame/Preload/PreLoader.cs', {
+      interfaces: ['IPreloader'],
+    }),
+
+    // ==========================================================
+    // XGame.Blur (XGameDll)
+    // ==========================================================
+    cls('XGame.Blur.BlurEffectManager', 'BlurEffectManager', 'XGame.Blur', 'class', '模糊效果管理器', 'XGame/Blur/BlurEffectManager.cs', { baseClass: 'MonoBehaviour' }),
+
+    // ==========================================================
+    // XGame.Cam (XGameDll)
+    // ==========================================================
+    cls('XGame.Cam.CameraController', 'CameraController', 'XGame.Cam', 'class', '相机控制组件', 'XGame/Cam/CameraController.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.Cam.CameraControllerManager', 'CameraControllerManager', 'XGame.Cam', 'class', '相机控制器管理器(单例)', 'XGame/Cam/CameraControllerManager.cs'),
+    cls('XGame.Cam.SceneCamera', 'SceneCamera', 'XGame.Cam', 'class', '场景相机', 'XGame/Cam/SceneCamera.cs', { baseClass: 'MonoBehaviour' }),
+
+    // ==========================================================
+    // XGame.MeshInst (XGameDll)
+    // ==========================================================
+    cls('XGame.MeshInst.IMeshInstanceManager', 'IMeshInstanceManager', 'XGame.MeshInst', 'interface', '网格实例管理器接口', 'XGame/MeshInst/IMeshInstanceManager.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.MeshInst.MeshInstanceManager', 'MeshInstanceManager', 'XGame.MeshInst', 'class', '网格实例管理器', 'XGame/MeshInst/MeshInstanceManager.cs', {
+      interfaces: ['IMeshInstanceManager'],
+    }),
+
+    // ==========================================================
+    // XGame.Material (XGameDll)
+    // ==========================================================
+    cls('XGame.Material.MaterialPropertySetter', 'MaterialPropertySetter', 'XGame.Material', 'abstract_class', '材质属性设置器基类', 'XGame/Material/MaterialPropertySetter.cs', { baseClass: 'MonoBehaviour' }),
+    cls('XGame.Material.FloatMaterialPropertySetter', 'FloatMaterialPropertySetter', 'XGame.Material', 'class', '浮点材质属性设置器', 'XGame/Material/FloatMaterialPropertySetter.cs', { baseClass: 'MaterialPropertySetter' }),
+    cls('XGame.Material.ColorMaterialPropertySetter', 'ColorMaterialPropertySetter', 'XGame.Material', 'class', '颜色材质属性设置器', 'XGame/Material/ColorMaterialPropertySetter.cs', { baseClass: 'MaterialPropertySetter' }),
+    cls('XGame.Material.MaterialPropertyBinder', 'MaterialPropertyBinder', 'XGame.Material', 'abstract_class', '材质属性绑定器基类', 'XGame/Material/MaterialPropertyBinder.cs', { baseClass: 'MonoBehaviour' }),
+
+    // ==========================================================
+    // XGame.MonoState (XGameDll)
+    // ==========================================================
+    cls('XGame.MonoState.IMonoStateSwitcher', 'IMonoStateSwitcher', 'XGame.MonoState', 'interface', 'Mono状态切换器接口', 'XGame/MonoState/IMonoStateSwitcher.cs'),
+    cls('XGame.MonoState.BaseMonoStateSwitcher', 'BaseMonoStateSwitcher', 'XGame.MonoState', 'abstract_class', 'Mono状态切换器基类', 'XGame/MonoState/BaseMonoStateSwitcher.cs', {
+      baseClass: 'MonoBehaviour',
+      interfaces: ['IMonoStateSwitcher'],
+    }),
+
+    // ==========================================================
+    // XGame.AnimationOverrides (XGameDll)
+    // ==========================================================
+    cls('XGame.AnimationOverrides.IAnimationOverridesMgr', 'IAnimationOverridesMgr', 'XGame.AnimationOverrides', 'interface', '动画重载管理器接口', 'XGame/AnimationOverrides/IAnimationOverridesMgr.cs', {
+      baseClass: 'ICom',
+      interfaces: ['ICom'],
+    }),
+    cls('XGame.AnimationOverrides.AnimationOverridesMgr', 'AnimationOverridesMgr', 'XGame.AnimationOverrides', 'class', '动画重载管理器', 'XGame/AnimationOverrides/AnimationOverridesMgr.cs', {
+      interfaces: ['IAnimationOverridesMgr'],
+    }),
+    cls('XGame.AnimationOverrides.AnimationClipOverrides', 'AnimationClipOverrides', 'XGame.AnimationOverrides', 'class', '动画片段重载', 'XGame/AnimationOverrides/AnimationClipOverrides.cs'),
+    cls('XGame.AnimationOverrides.IAnimaitonPlayer', 'IAnimaitonPlayer', 'XGame.AnimationOverrides', 'interface', '动画播放器接口', 'XGame/AnimationOverrides/IAnimaitonPlayer.cs'),
+
+    // ==========================================================
+    // XGame.PointerFollow (XGameDll)
+    // ==========================================================
+    cls('XGame.PointerFollow.IPointerFollower', 'IPointerFollower', 'XGame.PointerFollow', 'interface', '指针跟随器接口', 'XGame/PointerFollow/IPointerFollower.cs'),
+    cls('XGame.PointerFollow.PointerFollowManager', 'PointerFollowManager', 'XGame.PointerFollow', 'class', '指针跟随管理器', 'XGame/PointerFollow/PointerFollowManager.cs'),
   ],
 
   edges: [
@@ -1206,6 +2151,150 @@ export const codeMetaData: CodeMetaData = {
     { source: 'Monitor.CSSpriteAtlasNode', target: 'Monitor.MonitorNodeBase', type: 'inherits' },
     { source: 'Monitor.CSLOPObjectNode', target: 'Monitor.MonitorNodeBase', type: 'inherits' },
     { source: 'Monitor.CSAssetNode', target: 'Monitor.MonitorNodeBase', type: 'inherits' },
+
+    // XGame.State - inherits/implements (XGameDll)
+    { source: 'XGame.State.BaseState', target: 'XGame.State.IState', type: 'inherits' },
+    { source: 'XGame.State.BaseStateMachine', target: 'XGame.State.IStateMachine', type: 'inherits' },
+    { source: 'XGame.State.StateMachineManager', target: 'XGame.State.IStateMachineManager', type: 'implements' },
+
+    // XGame.Net - inherits/implements (XGameDll)
+    { source: 'XGame.Net.NetCom', target: 'XGame.Net.INetCom', type: 'implements' },
+    { source: 'XGame.Net.INetCom', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.Net.TCPSocketClient', target: 'XGame.Net.IConnection', type: 'implements' },
+    { source: 'XGame.Net.UDPSocketClient', target: 'XGame.Net.IConnection', type: 'implements' },
+    { source: 'XGame.Net.WebSocketClient', target: 'XGame.Net.IConnection', type: 'implements' },
+
+    // XGame.ItemPool - inherits/implements (XGameDll)
+    { source: 'XGame.ItemPool.PoolableObject', target: 'XGame.ItemPool.IPoolable', type: 'implements' },
+    { source: 'XGame.ItemPool.LitePoolableObject', target: 'XGame.ItemPool.PoolableObject', type: 'inherits' },
+    { source: 'XGame.ItemPool.IItemPoolManager', target: 'XGame.Common.ICom', type: 'inherits' },
+
+    // XGame.Entity - inherits/implements (XGameDll)
+    { source: 'XGame.Entity.BaseEntity', target: 'XGame.Entity.IEntity', type: 'implements' },
+    { source: 'XGame.Entity.VisibleEntity', target: 'XGame.Entity.BaseEntity', type: 'inherits' },
+    { source: 'XGame.Entity.VisibleEntity', target: 'XGame.Entity.IVisibleEntity', type: 'implements' },
+    { source: 'XGame.Entity.EntityWorld', target: 'XGame.Entity.IEntityWorld', type: 'implements' },
+    { source: 'XGame.Entity.EntityManager', target: 'XGame.Entity.IEntityManager', type: 'implements' },
+    { source: 'XGame.Entity.BasePart', target: 'XGame.Entity.IEntityPart', type: 'implements' },
+    { source: 'XGame.Entity.PrefabPart', target: 'XGame.Entity.BasePart', type: 'inherits' },
+    { source: 'XGame.Entity.VisiblePart', target: 'XGame.Entity.BasePart', type: 'inherits' },
+    { source: 'XGame.Entity.VisiblePart', target: 'XGame.Entity.IVisiblePart', type: 'implements' },
+    { source: 'XGame.Entity.MovePart', target: 'XGame.Entity.BasePart', type: 'inherits' },
+    { source: 'XGame.Entity.IEntity', target: 'XGame.ItemPool.IPoolable', type: 'inherits' },
+    { source: 'XGame.Entity.IVisibleEntity', target: 'XGame.Entity.IEntity', type: 'inherits' },
+    { source: 'XGame.Entity.IRoleEntity', target: 'XGame.Entity.IVisibleEntity', type: 'inherits' },
+    { source: 'XGame.Entity.IGoodsEntity', target: 'XGame.Entity.IEntity', type: 'inherits' },
+    { source: 'XGame.Entity.IEntityWorld', target: 'XGame.Common.ICom', type: 'inherits' },
+
+    // XGame.Audio - inherits/implements (XGameDll)
+    { source: 'XGame.Audio.IAudioCom', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.Audio.AudioCom', target: 'XGame.Audio.IAudioCom', type: 'implements' },
+
+    // XGame.Effect - inherits/implements (XGameDll)
+    { source: 'XGame.Effect.IEffectCom', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.Effect.EffectCom', target: 'XGame.Effect.IEffectCom', type: 'implements' },
+    { source: 'XGame.Effect.ForceShield', target: 'XGame.Effect.ShieldBase', type: 'inherits' },
+    { source: 'XGame.Effect.SpreadShield', target: 'XGame.Effect.ShieldBase', type: 'inherits' },
+
+    // XGame.EcoMode - inherits/implements (XGameDll)
+    { source: 'XGame.EcoMode.IEcoMode', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.EcoMode.EcoMode', target: 'XGame.EcoMode.IEcoMode', type: 'implements' },
+
+    // XGame.FlowText - inherits/implements (XGameDll)
+    { source: 'XGame.FlowText.IFlowTextManager', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.FlowText.FlowTextManager', target: 'XGame.FlowText.IFlowTextManager', type: 'implements' },
+    { source: 'XGame.FlowText.UGUIFlowTextView', target: 'XGame.FlowText.BaseFlowTextView', type: 'inherits' },
+
+    // XGame.FlyEffect - inherits/implements (XGameDll)
+    { source: 'XGame.FlyEffect.IFlyEffectManager', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.FlyEffect.FlyEffectManager', target: 'XGame.FlyEffect.IFlyEffectManager', type: 'implements' },
+
+    // XGame.Guide - inherits/implements (XGameDll)
+    { source: 'XGame.Guide.IGuideManager', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.Guide.GuideManager', target: 'XGame.Guide.IGuideManager', type: 'implements' },
+
+    // XGame.LightingEff - inherits/implements (XGameDll)
+    { source: 'XGame.LightingEff.ILightingEffectManager', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.LightingEff.LightingEffectManager', target: 'XGame.LightingEff.ILightingEffectManager', type: 'implements' },
+    { source: 'XGame.LightingEff.LightingEffectBind', target: 'XGame.LightingEff.LightingEffectBase', type: 'inherits' },
+    { source: 'XGame.LightingEff.LightingEffectPosition', target: 'XGame.LightingEff.LightingEffectBase', type: 'inherits' },
+    { source: 'XGame.LightingEff.LightingEffectUI', target: 'XGame.LightingEff.LightingEffectBase', type: 'inherits' },
+
+    // XGame.Reddot - inherits/implements (XGameDll)
+    { source: 'XGame.Reddot.IReddotManager', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.Reddot.ReddotManager', target: 'XGame.Reddot.IReddotManager', type: 'implements' },
+
+    // XGame.UI - inherits/implements (XGameDll)
+    { source: 'XGame.UI.IUISortingManager', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.UI.UISortingManager', target: 'XGame.UI.IUISortingManager', type: 'implements' },
+    { source: 'XGame.UI.BaseMonoStateSwitcher', target: 'XGame.MonoState.IMonoStateSwitcher', type: 'implements' },
+
+    // XGame.NewAnimator - inherits/implements (XGameDll)
+    { source: 'XGame.NewAnimator.ActionPlayer', target: 'XGame.NewAnimator.IActionPlayer', type: 'implements' },
+
+    // XGame.Performance - inherits/implements (XGameDll)
+    { source: 'XGame.Performance.IPerformanceCom', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.Performance.PerformanceComImpl', target: 'XGame.Performance.IPerformanceCom', type: 'implements' },
+
+    // XGame.Chat - inherits/implements (XGameDll)
+    { source: 'XGame.Chat.IChatMessageManager', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.Chat.ChatMessageManager', target: 'XGame.Chat.IChatMessageManager', type: 'implements' },
+
+    // XGame.FunctionIcon - inherits/implements (XGameDll)
+    { source: 'XGame.FunctionIcon.IFunctionIconManager', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.FunctionIcon.FunctionIconManager', target: 'XGame.FunctionIcon.IFunctionIconManager', type: 'implements' },
+
+    // XGame.FunctionOpen - inherits/implements (XGameDll)
+    { source: 'XGame.FunctionOpen.IFunctionOpenManager', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.FunctionOpen.FunctionOpenManager', target: 'XGame.FunctionOpen.IFunctionOpenManager', type: 'implements' },
+
+    // XGame.Preload - inherits/implements (XGameDll)
+    { source: 'XGame.Preload.IPreloader', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.Preload.PreLoader', target: 'XGame.Preload.IPreloader', type: 'implements' },
+
+    // XGame.MeshInst - inherits/implements (XGameDll)
+    { source: 'XGame.MeshInst.IMeshInstanceManager', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.MeshInst.MeshInstanceManager', target: 'XGame.MeshInst.IMeshInstanceManager', type: 'implements' },
+
+    // XGame.AnimationOverrides - inherits/implements (XGameDll)
+    { source: 'XGame.AnimationOverrides.IAnimationOverridesMgr', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.AnimationOverrides.AnimationOverridesMgr', target: 'XGame.AnimationOverrides.IAnimationOverridesMgr', type: 'implements' },
+
+    // XGame.Anim - inherits (XGameDll)
+    { source: 'XGame.Anim.TweenCore', target: 'XGame.Anim.AnimBase', type: 'inherits' },
+    { source: 'XGame.Anim.TweenBase', target: 'XGame.Anim.TweenCore', type: 'inherits' },
+    { source: 'XGame.Anim.PropertyTween', target: 'XGame.Anim.TweenBase', type: 'inherits' },
+    { source: 'XGame.Anim.FloatPropertyTween', target: 'XGame.Anim.PropertyTween', type: 'inherits' },
+    { source: 'XGame.Anim.Vector3PropertyTween', target: 'XGame.Anim.TweenBase', type: 'inherits' },
+    { source: 'XGame.Anim.ColorPropertyTween', target: 'XGame.Anim.TweenBase', type: 'inherits' },
+    { source: 'XGame.Anim.TweenPosition', target: 'XGame.Anim.Vector3PropertyTween', type: 'inherits' },
+    { source: 'XGame.Anim.TweenRotation', target: 'XGame.Anim.Vector3PropertyTween', type: 'inherits' },
+    { source: 'XGame.Anim.TweenScale', target: 'XGame.Anim.Vector3PropertyTween', type: 'inherits' },
+    { source: 'XGame.Anim.TweenAlpha', target: 'XGame.Anim.FloatPropertyTween', type: 'inherits' },
+    { source: 'XGame.Anim.TweenColor', target: 'XGame.Anim.ColorPropertyTween', type: 'inherits' },
+    { source: 'XGame.Anim.TweenCanvasGroupAlpha', target: 'XGame.Anim.FloatPropertyTween', type: 'inherits' },
+
+    // XGame.SpriteAtlas - inherits/implements (XGameDll)
+    { source: 'XGame.SpriteAtlas.ISpriteAtlasManager', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.SpriteAtlas.SpriteAtlasManager', target: 'XGame.SpriteAtlas.ISpriteAtlasManager', type: 'implements' },
+
+    // XGame.I18N - inherits/implements (XGameDll)
+    { source: 'XGame.I18N.II18NManager', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.I18N.I18NManager', target: 'XGame.I18N.II18NManager', type: 'implements' },
+
+    // XGame.Command - inherits/implements (XGameDll)
+    { source: 'XGame.Command.ICommandManager', target: 'XGame.Common.ICom', type: 'inherits' },
+    { source: 'XGame.Command.CommandManager', target: 'XGame.Command.ICommandManager', type: 'implements' },
+
+    // XGame.HttpCom - implements (XGameDll)
+    { source: 'XGame.HttpCom.HTTP', target: 'XGame.HttpCom.IHttp', type: 'implements' },
+
+    // XGame.Monitor - inherits/implements (XGameDll)
+    { source: 'XGame.Monitor.MonitorManager', target: 'XGame.Monitor.MonitorBase', type: 'implements' },
+
+    // XGame.Material - inherits (XGameDll)
+    { source: 'XGame.Material.FloatMaterialPropertySetter', target: 'XGame.Material.MaterialPropertySetter', type: 'inherits' },
+    { source: 'XGame.Material.ColorMaterialPropertySetter', target: 'XGame.Material.MaterialPropertySetter', type: 'inherits' },
   ],
 
   modules: [
@@ -1530,6 +2619,249 @@ export const codeMetaData: CodeMetaData = {
         'XGame.HybridCLR.AOTGenericReferences',
       ],
       dependencies: ['framework', 'network'],
+    },
+    {
+      id: 'xgame-core',
+      name: 'XGame核心框架',
+      description: 'XGame引擎核心框架，包含应用入口、组件系统、事件引擎、定时器、状态机、命令系统、对象池等基础模块',
+      layer: 'framework',
+      keyClasses: [
+        'XGame.Common.XGameApp',
+        'XGame.Common.ICom',
+        'XGame.Common.XGameComs',
+        'XGame.EventEngine.EventEngine',
+        'XGame.Timer.TimerManager',
+        'XGame.State.BaseStateMachine',
+        'XGame.Command.CommandManager',
+        'XGame.ItemPool.PoolableItemPool',
+      ],
+      dependencies: [],
+    },
+    {
+      id: 'xgame-asset',
+      name: 'XGame资源系统',
+      description: '资源加载管理系统，支持开发模式和Web模式的AssetBundle加载',
+      layer: 'framework',
+      keyClasses: [
+        'XGame.Asset.LoadMgr',
+        'XGame.Asset.ILoadSystem',
+        'XGame.Asset.IAssetBundle',
+        'XGame.Asset.DevLoadSystem',
+        'XGame.Asset.WebLoadSystem',
+      ],
+      dependencies: ['xgame-core'],
+    },
+    {
+      id: 'xgame-net-base',
+      name: 'XGame网络基础',
+      description: '底层网络通信模块，支持TCP/UDP/WebSocket连接和网关通信',
+      layer: 'framework',
+      keyClasses: [
+        'XGame.Net.INetCom',
+        'XGame.Net.NetCom',
+        'XGame.Net.TCPSocketClient',
+        'XGame.Net.UDPSocketClient',
+        'XGame.Net.WebSocketClient',
+        'XGame.Net.Connection',
+      ],
+      dependencies: ['xgame-core'],
+    },
+    {
+      id: 'xgame-entity-base',
+      name: 'XGame实体基础',
+      description: '引擎层实体系统基础，定义实体/部件接口和基类，与业务层Entity模块对接',
+      layer: 'framework',
+      keyClasses: [
+        'XGame.Entity.IEntity',
+        'XGame.Entity.BaseEntity',
+        'XGame.Entity.VisibleEntity',
+        'XGame.Entity.IEntityPart',
+        'XGame.Entity.BasePart',
+        'XGame.Entity.EntityWorld',
+      ],
+      dependencies: ['xgame-core', 'xgame-asset'],
+    },
+    {
+      id: 'xgame-anim',
+      name: 'XGame动画系统',
+      description: '引擎层动画和缓动系统，包含Tween动画框架和多种属性动画',
+      layer: 'framework',
+      keyClasses: [
+        'XGame.Anim.AnimBase',
+        'XGame.Anim.TweenCore',
+        'XGame.Anim.TweenPlayer',
+        'XGame.Anim.TweenSequence',
+        'XGame.Anim.TweenPosition',
+        'XGame.Anim.TweenScale',
+      ],
+      dependencies: ['xgame-core'],
+    },
+    {
+      id: 'xgame-audio',
+      name: 'XGame音频系统',
+      description: '音频管理和播放系统，支持2D/3D音效、混音器组管理',
+      layer: 'framework',
+      keyClasses: [
+        'XGame.Audio.IAudioCom',
+        'XGame.Audio.AudioCom',
+        'XGame.Audio.AudioPlayer',
+        'XGame.Audio.AudioNode',
+      ],
+      dependencies: ['xgame-core', 'xgame-asset'],
+    },
+    {
+      id: 'xgame-effect',
+      name: 'XGame特效系统',
+      description: '特效管理和播放系统，支持动画/粒子/声音特效及护盾效果',
+      layer: 'framework',
+      keyClasses: [
+        'XGame.Effect.IEffectCom',
+        'XGame.Effect.EffectCom',
+        'XGame.Effect.EffectPlayer',
+        'XGame.Effect.ShieldBase',
+      ],
+      dependencies: ['xgame-core', 'xgame-anim'],
+    },
+    {
+      id: 'xgame-lighting',
+      name: 'XGame光效系统',
+      description: '光效管理和播放系统，支持绑定/定位/UI光效及Spine骨骼绑定',
+      layer: 'framework',
+      keyClasses: [
+        'XGame.LightingEff.ILightingEffectManager',
+        'XGame.LightingEff.LightingEffectManager',
+        'XGame.LightingEff.LightingEffectFacade',
+        'XGame.LightingEff.LightingEffectBase',
+      ],
+      dependencies: ['xgame-core', 'xgame-effect'],
+    },
+    {
+      id: 'xgame-ui-base',
+      name: 'XGame UI基础',
+      description: 'UI基础系统，包含排序管理、灰化、状态切换、动画节点等',
+      layer: 'ui',
+      keyClasses: [
+        'XGame.UI.IUISortingManager',
+        'XGame.UI.GraphicGreyManager',
+        'XGame.UI.UIStateSwitcher',
+        'XGame.UI.UIAnimationNode',
+        'XGame.UI.BaseMonoStateSwitcher',
+      ],
+      dependencies: ['xgame-core'],
+    },
+    {
+      id: 'xgame-guide',
+      name: 'XGame引导系统',
+      description: '新手引导系统，支持步骤/节点/条件/触发器/气泡/遮罩',
+      layer: 'business',
+      keyClasses: [
+        'XGame.Guide.IGuideManager',
+        'XGame.Guide.GuideManager',
+        'XGame.Guide.GuideStep',
+        'XGame.Guide.GuideCondition',
+        'XGame.Guide.GuideTrigger',
+      ],
+      dependencies: ['xgame-core', 'xgame-ui-base'],
+    },
+    {
+      id: 'xgame-reddot-base',
+      name: 'XGame红点基础',
+      description: '引擎层红点系统，定义红点管理器和视图接口',
+      layer: 'framework',
+      keyClasses: [
+        'XGame.Reddot.IReddotManager',
+        'XGame.Reddot.ReddotManager',
+        'XGame.Reddot.ReddotData',
+        'XGame.Reddot.ReddotIcon',
+      ],
+      dependencies: ['xgame-core'],
+    },
+    {
+      id: 'xgame-i18n',
+      name: 'XGame国际化',
+      description: '国际化系统，支持多语言文本/图片/字体切换',
+      layer: 'framework',
+      keyClasses: [
+        'XGame.I18N.II18NManager',
+        'XGame.I18N.I18NManager',
+        'XGame.I18N.LocalizeText',
+        'XGame.I18N.LocalizeImage',
+        'XGame.I18N.I18NFontManager',
+      ],
+      dependencies: ['xgame-core'],
+    },
+    {
+      id: 'xgame-new-animator',
+      name: 'XGame新动画系统',
+      description: '新动画控制器系统，支持动作播放/事件/状态机行为',
+      layer: 'framework',
+      keyClasses: [
+        'XGame.NewAnimator.IActionPlayer',
+        'XGame.NewAnimator.ActionPlayer',
+        'XGame.NewAnimator.AnimationEventManager',
+        'XGame.NewAnimator.RuntimeActionNode',
+      ],
+      dependencies: ['xgame-core'],
+    },
+    {
+      id: 'xgame-performance',
+      name: 'XGame性能系统',
+      description: '性能/画质管理，支持多级画质和兼容模式',
+      layer: 'framework',
+      keyClasses: [
+        'XGame.Performance.IPerformanceCom',
+        'XGame.Performance.PerformanceComImpl',
+        'XGame.Performance.PerformanceManager',
+      ],
+      dependencies: ['xgame-core'],
+    },
+    {
+      id: 'xgame-function-open',
+      name: 'XGame功能开放',
+      description: '功能开放系统，控制功能按钮/元素的显示和交互',
+      layer: 'business',
+      keyClasses: [
+        'XGame.FunctionOpen.IFunctionOpenManager',
+        'XGame.FunctionOpen.FunctionOpenManager',
+        'XGame.FunctionOpen.FunctionOpenNode',
+      ],
+      dependencies: ['xgame-core', 'xgame-ui-base'],
+    },
+    {
+      id: 'xgame-chat',
+      name: 'XGame聊天系统',
+      description: '聊天消息管理，支持频道/消息队列/视图',
+      layer: 'business',
+      keyClasses: [
+        'XGame.Chat.IChatMessageManager',
+        'XGame.Chat.ChatMessageManager',
+        'XGame.Chat.ChatMessageView',
+      ],
+      dependencies: ['xgame-core'],
+    },
+    {
+      id: 'xgame-fly-effect',
+      name: 'XGame飞行特效',
+      description: '飞行特效系统，支持粒子吸引和完成效果',
+      layer: 'business',
+      keyClasses: [
+        'XGame.FlyEffect.IFlyEffectManager',
+        'XGame.FlyEffect.FlyEffectManager',
+        'XGame.FlyEffect.FlyEffectObject',
+      ],
+      dependencies: ['xgame-core', 'xgame-effect'],
+    },
+    {
+      id: 'xgame-anim-overrides',
+      name: 'XGame动画重载',
+      description: '动画片段重载系统，支持Spine皮肤动画切换',
+      layer: 'framework',
+      keyClasses: [
+        'XGame.AnimationOverrides.IAnimationOverridesMgr',
+        'XGame.AnimationOverrides.AnimationOverridesMgr',
+        'XGame.AnimationOverrides.AnimationClipOverrides',
+      ],
+      dependencies: ['xgame-core', 'xgame-new-animator'],
     },
   ],
 };
